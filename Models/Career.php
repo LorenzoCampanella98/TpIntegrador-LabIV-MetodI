@@ -1,0 +1,23 @@
+<?php namespace Models; 
+
+    class careerId
+    {
+        private $careerId;
+        private $description;
+        private $active;
+
+        
+
+        public function getCareerId(){ return $this->careerId; }
+        public function setCareerId($careerId): self { $this->careerId = $careerId; return $this; }
+
+        public function getDescription(){ return $this->description; }
+        public function setDescription($description): self { $this->description = $description; return $this; }
+
+        public function getActive(){ return $this->active; }
+        public function setActive($active): self { $this->active = $active; return $this; }
+    }
+
+
+
+?>
