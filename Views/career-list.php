@@ -18,7 +18,7 @@
             </tr>
           </thead>
           <tbody> 
-              <button type="submit" name="id" class="btn" value=""> Recargar Json </button> 
+              <button type="submit" name="id" class="btn" value=""> NO TOCAR - api a BD!!!!! </button> 
           </tbody>
         </table>
       </form>
