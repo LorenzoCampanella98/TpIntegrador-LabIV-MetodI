@@ -21,6 +21,28 @@
           </li>
       </ul>
     </nav>
+    <nav id="mainav" class="fl_right">
+      <ul class="clear">
+          <li class="active"><a class="drop" href="#">Career</a>
+            <ul>
+              <!-- PARA Careers-->
+             <!-- <li><a href="<?php echo  FRONT_ROOT."Student/ShowAddView "?>">ADD</a></li> DESACTIVADA LA CREACION DE ALUMNOS -->
+              <li><a href="<?php echo  FRONT_ROOT."Career/ShowListView "?>">LIST</a></li>
+            </ul>
+          </li>
+      </ul>
+    </nav>
+    <nav id="mainav" class="fl_right">
+      <ul class="clear">
+          <li class="active"><a class="drop" href="#">JobPosition</a>
+            <ul>
+              <!-- PARA JobPosition-->
+  
+              <li><a href="<?php echo  FRONT_ROOT."JobPosition/ShowListView "?>">LIST</a></li>
+            </ul>
+          </li>
+      </ul>
+    </nav>
     <?php } ?>
     <nav id="mainav" class="fl_right">
       <ul class="clear">

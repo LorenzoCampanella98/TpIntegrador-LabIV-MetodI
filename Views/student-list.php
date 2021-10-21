@@ -8,6 +8,12 @@
   <main class="hoc container clear"> 
     <div class="content"> 
       <div class="scrollable">
+      <form action="<?php echo FRONT_ROOT?>Student/ReloadJson" method="">
+        
+            
+        <button type="submit" name="id" class="btn" value=""> RECARGAR Json </button> 
+                 
+      </form>
       <form action="<?php echo FRONT_ROOT?>Student/Remove" method="">
         <table style="text-align:center;">
           <thead>

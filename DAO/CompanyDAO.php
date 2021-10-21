@@ -6,7 +6,7 @@
     class CompanyDAO
     {
         private $companyList = array();
-        private $fileName = ROOT."Data/Company.js";
+        private $fileName = ROOT."Data/Company.json";
 
         public function Add(Company $company)
         {

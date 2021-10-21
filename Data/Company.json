@@ -18,7 +18,7 @@
         "cuit": "cuit 3",
         "address": "modificado 3",
         "name": "nueva address",
-        "active": true
+        "active": false
     },
     {
         "companyId": 4,
@@ -32,7 +32,7 @@
         "cuit": "cuit 5",
         "address": "address 5",
         "name": "name 5",
-        "active": false
+        "active": true
     },
     {
         "companyId": 6,
@@ -44,15 +44,22 @@
     {
         "companyId": 7,
         "cuit": "777777777",
-        "address": "Adres 77 - new address",
-        "name": "El numero 7",
-        "active": true
+        "address": "nueva direc 7",
+        "name": "NaMe 7",
+        "active": false
     },
     {
         "companyId": 8,
         "cuit": "88888888",
         "address": "address 8",
-        "name": "name 88",
-        "active": false
+        "name": "name 8",
+        "active": true
+    },
+    {
+        "companyId": 9,
+        "cuit": "9999999",
+        "address": "adres 91",
+        "name": "name 99",
+        "active": true
     }
 ]

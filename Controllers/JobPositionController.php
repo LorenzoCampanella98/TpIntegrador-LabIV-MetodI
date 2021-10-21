@@ -1,25 +1,26 @@
 <?php namespace Controllers;
 
-    use Models\Student as Student;
-    use DAO\StudentDAO as StudentDAO;
+use Models\JobPosition as JobPosition;
+use DAO\JobPositionDAO as JobPositionDAO;
 
-    class StudentController
+class JobPositionController
+{
+    private $jobPositionDAO;
+
+    public function __construct()
     {
-        private $studentDAO;
-        public function __construct()
-        {
-            $this->studentDAO = new StudentDAO;
-        }
+        $this->jobPositionDAO = new JobPositionDAO();
+    }
 
-        public  function ShowAddView()
+    public  function ShowAddView()
         {
             //require_once(VIEWS_PATH."add-beer.php");
         }
 
         public function ShowListView()
         {
-            $studentList = $this->studentDAO->GetAll();
-            require_once(VIEWS_PATH."student-list.php");
+            $jobPositionList = $this->jobPositionDAO->GetAll();
+            require_once(VIEWS_PATH."jobPosition-list.php");
         }
 
         /*public function Add($code,$name,$beerType) //description, density, price defautl!!
@@ -43,8 +44,13 @@
 
         public function ReloadJson()
         {
-            $this->studentDAO->RetrieveDataFromAPI();
+            $this->jobPositionDAO->RetrieveDataFromAPI();
             $this->ShowListView();
         }
-    }
+
+
+}
+
+
+
 ?>

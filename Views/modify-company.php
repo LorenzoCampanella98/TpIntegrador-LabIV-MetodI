@@ -33,9 +33,9 @@
                   <input type="text" name="name" size="22" min="0" required>
                 </td>
                 <td>
-                  <input type="radio" id="active" name="active" value=1> <!--active envio 1-->
+                  <input type="radio" id="active" name="active" value=1 required> <!--active envio 1-->
                   <label for="contactChoice1">Activate</label>
-                  <input type="radio" id="active" name="active" value=0> <!--desactived envio 0-->
+                  <input type="radio" id="active" name="active" value=0 required> <!--desactived envio 0-->
                   <label for="contactChoice2">Deactivate</label>
                 </td>         
               </tr>

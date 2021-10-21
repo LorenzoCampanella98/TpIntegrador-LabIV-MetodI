@@ -73,8 +73,6 @@
         </table>
       </div>  
   <?php } ?>
-      </div>
-    </div>
     <!-- / main body -->
     <div class="clear"></div>
   </main>

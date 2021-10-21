@@ -7,7 +7,30 @@
     {
         private $studentList = array();
 
-        private $fileName = ROOT."Data/Student.js";
+        private $fileName = ROOT."Data/Student.json";
+
+        public function RetrieveDataFromAPI()
+        {
+            $ch = curl_init();
+            $url = 'https://utn-students-api.herokuapp.com/api/Student';
+            $httpheader = ['x-api-key: 4f3bceed-50ba-4461-a910-518598664c08'];
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $httpheader);
+            $response = curl_exec($ch);
+            if(curl_errno($ch))
+            { 
+                echo curl_error($ch);
+            } else { 
+                $decoded = json_decode($response, true);
+            }
+            curl_close($ch);
+            $data = json_decode($response, true);
+            $this->studentList = $data;
+            $fileContent = json_encode($data, JSON_PRETTY_PRINT);
+            file_put_contents($this->fileName, $fileContent);
+        }
 
         public function Add(Student $student)
         {

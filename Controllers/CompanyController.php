@@ -46,10 +46,10 @@
             $this->ShowAddView();
         }
 
-        public function Modify($id,$cuit,$address,$name)
+        public function Modify($id,$name ,$address,$active)
         {
             $companyList = $this->companyDAO->GetAll(); //porque el Modify view muestra todas las companias tambien
-            $this->companyDAO->Modify($id,$cuit,$address,$name);
+            $this->companyDAO->Modify($id,$address,$name,$active);
             $this->ShowModifyView();
         }
 
