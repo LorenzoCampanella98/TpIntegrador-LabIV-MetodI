@@ -32,7 +32,7 @@
             file_put_contents($this->fileName, $fileContent);
         }
 
-        public function Add(Student $student)
+        public function Add(Student $student) 
         {
             $this->RetrieveData();
             $student->setStudentId($this->GetNextId());

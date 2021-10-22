@@ -9,6 +9,8 @@
         public function ChangeStatus($id);
         public function Modify($id,$name, $address, $active);//id encuentro, name, address, active modificables
         public function Search($name);//busco por nombre
+        public function SearchCuit($cuit);
+        public function RetrieveDataFilter($name);
     }
 
 ?>

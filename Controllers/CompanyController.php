@@ -37,13 +37,20 @@
 
         public function Add($cuit,$address,$name) //description, density, price defautl!!
         {
-            $company = new Company();
-            $company->setCuit($cuit);
-            $company->setAddress($address);
-            $company->setName($name);
+            
+            if ($this->companyDAO->SearchCuit($cuit) == false){
+                $company = new Company();
+                $company->setCuit($cuit);
+                $company->setAddress($address);
+                $company->setName($name);
+                $this->companyDAO->Add($company);
+                $this->ShowAddView();
+            } else {
+                $mesage = "error cuit repetido";
+                $this->ShowAddView();
+            }
         
-            $this->companyDAO->Add($company);
-            $this->ShowAddView();
+            
         }
 
         public function Modify($id,$name ,$address,$active)
@@ -64,6 +71,13 @@
         public function ChangeStatus($id){ //REMOVE no elimina, cambia el estado a false
             $this->companyDAO->ChangeStatus($id);
             $this->ShowListView();
+        }
+
+        public function Filter($name){
+            $companyList = $this->companyDAO->RetrieveDataFilter($name);
+            $company = new Company(); //par que no tire error la view -> ira vacio se realiza la busqueda, se va a la funcion Search y se llena -> luego a view otra vez pero con contenido
+            //var_dump($companyList);
+            require_once(VIEWS_PATH."search-company.php");
         }
 
         

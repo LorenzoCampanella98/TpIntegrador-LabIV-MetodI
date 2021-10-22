@@ -134,5 +134,55 @@
             $companies = array_values($companies); //Reordering array indexes
             return (count($companies) > 0) ? $company[0] : null;
         }
+
+        public function SearchCuit($cuit)
+        {
+            $aux = false;
+            $this->RetrieveData();
+            foreach($this->companyList as $value) {
+                if($value->getCuit() == $cuit) //filtro busqueda
+                {
+                    $aux = true; 
+                }
+            }
+            return $aux;
+        }
+
+        public function RetrieveDataFilter($name)
+        {
+            $aux_filtrado= array();
+            //$tam = strlen($name);
+            if(file_exists($this->fileName))
+             {
+                 $jsonToDecode = file_get_contents($this->fileName);
+                 $contentArray = ($jsonToDecode) ? json_decode($jsonToDecode, true) : array();
+                 foreach($contentArray as $content)
+                 {
+                    $nombre_aux = $content['name']; 
+                    if(strlen($name) <= strlen($nombre_aux))
+                    {
+                       $flag = false;
+                    for ($i=0; $i < strlen($name); $i++) { 
+                        if($nombre_aux[$i]==$name[$i]){
+                            $flag=true;
+                        } else {
+                            $flag = false;
+                        }
+                    }
+                    if($flag==true)
+                    { 
+                        $company = new Company();
+                        $company->setCompanyId($content["companyId"]);
+                        $company->setCuit($content["cuit"]);
+                        $company->setAddress($content["address"]);
+                        $company->setName($content["name"]);
+                        $company->setActive($content["active"]);
+                        array_push($aux_filtrado, $company);
+                    } 
+                    }
+                 }
+             }
+            return $aux_filtrado;
+        }
     }
 ?>

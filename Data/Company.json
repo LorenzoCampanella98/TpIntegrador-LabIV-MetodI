@@ -44,8 +44,8 @@
     {
         "companyId": 7,
         "cuit": "777777777",
-        "address": "nueva direc 7",
-        "name": "NaMe 7",
+        "address": "direccion 7",
+        "name": "nombre modificado 7",
         "active": false
     },
     {
@@ -57,9 +57,23 @@
     },
     {
         "companyId": 9,
-        "cuit": "9999999",
-        "address": "adres 91",
-        "name": "name 99",
+        "cuit": "898989898",
+        "address": "adres 98",
+        "name": "name 9898",
+        "active": true
+    },
+    {
+        "companyId": 10,
+        "cuit": "65",
+        "address": "address 65",
+        "name": "name 65",
+        "active": false
+    },
+    {
+        "companyId": 11,
+        "cuit": "123123123123",
+        "address": "adres asdasdasd",
+        "name": "2",
         "active": true
     }
 ]

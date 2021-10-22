@@ -36,7 +36,7 @@
             } else {
                 $student = $this->studentDAO->GetByEmail($username); //busco en json -> modificar a api
                 if($student != null){ //si no es null lo encontre
-                    if(($student->getEmail()==$username &&$student->getPhoneNumber()==$password)){ //necesario??
+                    if(($student->getEmail()==$username && $student->getPhoneNumber()==$password)){ //necesario??
                         if(($student->getActive()==true))//necesario??
                         {
                             $_SESSION["loggedUser"]= $student;
@@ -47,6 +47,7 @@
                         }
                     }
                 }
+                $this->ShowAddView();
             }
         }
 
