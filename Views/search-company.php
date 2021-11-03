@@ -21,7 +21,7 @@
             <tbody align="center">
               <tr>
                 <td style="max-width: 120px;">    
-                  <input type="text" name="name" size="22" min="0" required>
+                  <input type="text" name="name" size="22" min="0" maxlength="29" required>
                 </td>      
               </tr>
             </tbody>
@@ -40,18 +40,22 @@
             <thead>
               <tr>
                 <th style="width: 15%;">Company Id</th>
+                <th style="width: 15%;">Name</th>
                 <th style="width: 30%;">Cuit</th>
-                <th style="width: 30%;">Address</th>
-                <th style="width: 15%;">name</th>
+                <th style="width: 30%;">Link</th>
+                <th style="width: 15%;">About</th>
+                <th style="width: 15%;">Description</th>
                 <th style="width: 15%;">Status</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                   <td><?php echo $company->getCompanyId()?></td>
-                  <td><?php echo $company->getCuit() ?></td>
-                  <td><?php echo $company->getAddress()?></td>
-                  <td><?php echo $company->getName()?></td>
+                  <td><?php echo $company->getName() ?></td>
+                  <td><?php echo $company->getCuit()?></td>
+                  <td><?php echo $company->getCompanyLink()?></td>
+                  <td><?php echo $company->getAboutUs()?></td>
+                  <td><?php echo $company->getDescription()?></td>
                   <td><?php echo $company->getActive()?></td>
                   <td><?php  ?></td>
               </tr>
@@ -69,16 +73,19 @@
           <tbody>
           <?php
               foreach($companyList as $company)
+                if($company->getActive()==1)
+                {
               {
                 ?>
                   <tr>
                     <td><?php echo $company->getCompanyId() ?></td>
                     <td><?php echo $company->getName() ?></td>
                     <td>
-                      <button type="submit" name="id" class="btn" value="<?php echo $company->getName() ?>"> Select </button> <!-- USO LA BUSQUEDA POR NAME PERO DE LA SELECCIONADA-->
+                      <button type="submit" name="id" class="btn" value="<?php echo $company->getCompanyId() ?>"> Select </button> <!-- USO LA BUSQUEDA POR NAME PERO DE LA SELECCIONADA-->
                     </td>
                   </tr>
                 <?php
+                }
               }
             ?> 
           </tbody>

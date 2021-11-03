@@ -9,12 +9,12 @@
     <!-- main body -->
     <div class="content" > 
       <div id="comments" style="align-items:center;">
-        <h2>Add Company</h2>
+        <h2>Add APPLICATION</h2>
         <form action="<?php echo FRONT_ROOT?> Company/Add" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
           <table> 
             <thead>
               <tr>
-                <th>Cuit</th>
+                <th>DESCRIPTION</th>
                 <th>Name</th>
                 <th>Link</th>
                 <th>About Us</th>
@@ -24,7 +24,7 @@
             <tbody align="center">
               <tr>
                 <td style="max-width: 120px;">    
-                  <input type="number" name="cuit" size="22" min="0" required>
+                  <input type="number" name="cuit" size="22" min="0" maxlength="29" required>
                 </td>
                 <td style="max-width: 120px;">    
                   <input type="text" name="name" size="22" min="0" maxlength="29" required>
@@ -38,11 +38,6 @@
                 <td style="max-width: 120px;">    
                   <input type="text" name="description" size="22" min="0" maxlength="29" required>
                 </td>           
-              </tr>
-              <tr>
-                <?php if($message !=null) {?>
-                  <input type="submit" class="btn" value="<?php echo $message ?>" style="background-color:#DC8E47;color:red;" disabled/>
-                  <?php } ?>
               </tr>
             </tbody>
           </table>

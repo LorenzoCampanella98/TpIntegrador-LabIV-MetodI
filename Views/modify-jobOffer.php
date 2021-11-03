@@ -10,16 +10,15 @@
     <!-- main body -->
     <div class="content" > 
       <div id="comments" style="align-items:center;">
-        <h2>Modify Company</h2>
-        <form action="<?php echo FRONT_ROOT?> Company/Modify" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
+        <h2>Modify JobOffer</h2>
+        <form action="<?php echo FRONT_ROOT?> JobOffer/Modify" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
           <table> 
             <thead>
               <tr>
                 <th>Id</th>
-                <th>Name</th>
-                <th>About</th>
-                <th>Link</th>
                 <th>Description</th>
+                <th>Skills</th>
+                <th>Tasks</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -29,16 +28,13 @@
                   <input type="number" name="id" size="22" min="0" required>
                 </td>
                 <td style="max-width: 120px;">    
-                  <input type="text" name="name" size="22" min="0" maxlength="29" required>
+                  <input type="text" name="description" size="22" min="0"  maxlength="29" required>
                 </td>
                 <td style="max-width: 120px;">    
-                  <input type="text" name="company_link" size="22" min="0" maxlength="29" required>
+                  <input type="text" name="skills" size="22" min="0"  maxlength="29" required>
                 </td>
                 <td style="max-width: 120px;">    
-                  <input type="text" name="aboutUs" size="22" min="0" maxlength="29" required>
-                </td>
-                <td style="max-width: 120px;">    
-                  <input type="text" name="description" size="22" min="0" maxlength="29" required>
+                  <input type="text" name="tasks" size="22" min="0" maxlength="29" required>
                 </td>
                 <td>
                   <input type="radio" id="active" name="active" value=1 required> <!--active envio 1-->
@@ -56,26 +52,32 @@
         <table style="text-align:center;">
           <thead>
           <tr>
-              <th style="width: 15%;">Company Id</th>
-              <th style="width: 15%;">Name</th>
-              <th style="width: 30%;">Link</th>
-              <th style="width: 15%;">About</th>
-              <th style="width: 15%;">Description</th>
-              <th style="width: 15%;">active</th>
+            <th style="width: 15%;">JobOffer Id</th>
+              <th style="width: 15%;">Publication DATE</th>
+              <th style="width: 30%;">Expiration DATE</th>
+              <th style="width: 30%;">Description</th>
+              <th style="width: 15%;">Skills</th>
+              <th style="width: 15%;">Tasks</th>
+              <th style="width: 15%;">JobPositionId</th>
+              <th style="width: 15%;">CompanyId</th>
+              <th style="width: 15%;">Active</th>
             </tr>
           </thead>
           <tbody>
           <?php
-              foreach($companyList as $company)
+              foreach($jobOfferList as $jobOffer)
               {
                 ?>
                   <tr>
-                    <td><?php echo $company->getCompanyId() ?></td>
-                    <td><?php echo $company->getName() ?></td>
-                    <td><?php echo $company->getCompanyLink() ?></td>
-                    <td><?php echo $company->getAboutUs() ?></td>
-                    <td><?php echo $company->getDescription() ?></td>
-                    <td><?php echo $company->getActive() ?></td>
+                    <td><?php echo $jobOffer->getJobOfferId() ?></td>
+                    <td><?php echo $jobOffer->getPublicationDate() ?></td>
+                    <td><?php echo $jobOffer->getExpiryDate() ?></td>
+                    <td><?php echo $jobOffer->getDescription() ?></td>
+                    <td><?php echo $jobOffer->getSkills() ?></td>
+                    <td><?php echo $jobOffer->getTasks() ?></td>
+                    <td><?php echo $jobOffer->getJobPositionId() ?></td>
+                    <td><?php echo $jobOffer->getCompanyId() ?></td>
+                    <td><?php echo $jobOffer->getActive() ?></td>
                   </tr>
                 <?php
               }

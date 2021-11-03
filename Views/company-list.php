@@ -15,11 +15,12 @@
           <thead>
             <tr>
               <th style="width: 15%;">Company Id</th>
+              <th style="width: 15%;">Name</th>
               <th style="width: 30%;">Cuit</th>
-              <th style="width: 30%;">Address</th>
-              <th style="width: 15%;">name</th>
-              <th style="width: 15%;">Status</th>
-              <th style="width: 15%;">Cambiar estado</th>
+              <th style="width: 30%;">Link</th>
+              <th style="width: 15%;">About</th>
+              <th style="width: 15%;">Description</th>
+              <th style="width: 15%;">active</th>
             </tr>
           </thead>
           <tbody>
@@ -29,9 +30,11 @@
                 ?>
                   <tr>
                     <td><?php echo $company->getCompanyId() ?></td>
-                    <td><?php echo $company->getCuit() ?></td>
-                    <td><?php echo $company->getAddress() ?></td>
                     <td><?php echo $company->getName() ?></td>
+                    <td><?php echo $company->getCuit() ?></td>
+                    <td><?php echo $company->getCompanyLink() ?></td>
+                    <td><?php echo $company->getAboutUs() ?></td>
+                    <td><?php echo $company->getDescription() ?></td>
                     <td><?php echo $company->getActive() ?></td>
                     <td>
                       <button type="submit" name="id" class="btn" value="<?php echo $company->getCompanyId() ?>"> Cambiar </button>

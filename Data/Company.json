@@ -25,7 +25,7 @@
         "cuit": "cuit 4",
         "address": "address 4",
         "name": "name 4",
-        "active": true
+        "active": false
     },
     {
         "companyId": 5,
