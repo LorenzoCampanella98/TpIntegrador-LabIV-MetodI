@@ -57,7 +57,7 @@
     <?php if($_SESSION["loggedUser"]->getName()!="admin") { ?>
     <nav id="mainav" class="fl_right">
       <ul class="clear">
-        <!--SOLO APPLICATIONS-->
+        <!--SOLO APPLICATIONS   -->
       <li><a href="<?php echo  FRONT_ROOT."Application/ShowListView"?>">MyApplications</a></li>
       </ul>
     </nav>
