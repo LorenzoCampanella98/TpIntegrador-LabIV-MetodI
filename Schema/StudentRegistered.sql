@@ -4,13 +4,14 @@ USE tpfinal;
 
 CREATE TABLE IF NOT EXISTS studentRegistered
 (
-    studentId INT NOT NULL PRIMARY KEY,
+    studentId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name NVARCHAR(30) NOT NULL,
     fileNumber NVARCHAR(30) NOT NULL,
     surname NVARCHAR(30) NOT NULL,
     password NVARCHAR(30) NOT NULL,
     email NVARCHAR(30) NOT NULL,
-    postulated bit NOT NULL /* no toma true o false*/
+    postulated bit NOT NULL, /* no toma true o false*/
+    typeStudentId int NOT NULL
     
 )Engine=InnoDB;
 
@@ -45,12 +46,12 @@ DROP procedure IF EXISTS `StudentRegistered_Add`;
 
 DELIMITER $$
 
-CREATE PROCEDURE StudentRegistered_Add (IN studentId CHAR(4), IN fileNumber VARCHAR(30),IN name VARCHAR(30),IN surname VARCHAR (30),IN password VARCHAR (30),IN email VARCHAR(30), IN postulated boolean)
+CREATE PROCEDURE StudentRegistered_Add ( IN fileNumber VARCHAR(30),IN name VARCHAR(30),IN surname VARCHAR (30),IN password VARCHAR (30),IN email VARCHAR(30), IN postulated boolean, IN typeStudentId VARCHAR(4))
 BEGIN
 	INSERT INTO studentRegistered
-        (studentRegistered.studentId,studentRegistered.fileNumber,studentRegistered.name,studentRegistered.surname,studentRegistered.password,studentRegistered.email,studentRegistered.postulated)
+        (studentRegistered.fileNumber,studentRegistered.name,studentRegistered.surname,studentRegistered.password,studentRegistered.email,studentRegistered.postulated,studentRegistered.typeStudentId)
     VALUES
-        (studentId,fileNumber,name,surname,password,email,postulated);
+        (fileNumber,name,surname,password,email,postulated,typeStudentId);
 END$$
 
 DELIMITER ;
@@ -61,7 +62,7 @@ DELIMITER $$
 
 CREATE PROCEDURE StudentRegistered_GetAll ()
 BEGIN
-	SELECT studentId,fileNumber,name,surname,password,email,postulated
+	SELECT studentId,fileNumber,name,surname,password,email,postulated,typeStudentId
     FROM studentRegistered;
 END$$
 
@@ -91,3 +92,8 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+INSERT INTO studentRegistered 
+    (name,fileNumber,surname,password,email, postulated,typestudentId)
+VALUES
+    ('admin',000,'admin','admin','admin',0,2);

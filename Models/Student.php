@@ -1,6 +1,6 @@
 <?php namespace Models;
 
-class StudentRegistered{
+class Student{
     private $fileNumber;
     private $studentId;
     private $name;
@@ -8,6 +8,7 @@ class StudentRegistered{
     private $email;
     private $password;
     private $postulated;
+    private $typeStudentId;
 
     
 
@@ -31,6 +32,9 @@ class StudentRegistered{
 
     public function getEmail(){ return $this->email; }
     public function setEmail($email): self { $this->email = $email; return $this; }
+
+    public function getTypeStudentId(){ return $this->typeStudentId;}
+    public function setTypeStudentId($typeStudentId): self {$this->typeStudentId = $typeStudentId; return $this;}
 }
 
 

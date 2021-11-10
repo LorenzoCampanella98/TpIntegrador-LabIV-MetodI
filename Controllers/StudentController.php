@@ -1,29 +1,24 @@
 <?php namespace Controllers;
 
     
-    use DAO\StudentRegisteredDAO as StudentRegisteredDAO;
+    use DAO\StudentDAO as StudentDAO;
 
     class StudentController
     {
         private $studentDAO;
-        private $studentRegisteredDAO;
         public function __construct()
         {
-            $this->studentRegisteredDAO = new StudentRegisteredDAO;
+            $this->studentDAO = new StudentDAO;
         }
 
         public  function ShowAddView()
         {
             require_once(VIEWS_PATH."add-student.php");
-            //require_once(VIEWS_PATH."add-beer.php");
         }
 
         public function ShowListView()
         {
-            //$studentList = $this->studentDAO->GetAll(); //VIEJO
-            //require_once(VIEWS_PATH."student-list.php"); 
-
-            $studentList = $this->studentRegisteredDAO->GetAll();
+            $studentList = $this->studentDAO->GetAll();
             require_once(VIEWS_PATH."student-list.php");
         }
 
@@ -32,25 +27,37 @@
             require_once(VIEWS_PATH."home.php");
         }
 
-        
-
-        public function ReloadJson()
+        public function ShowAddAdminView()
         {
-            $this->studentDAO->RetrieveDataFromAPI();
-            $this->ShowListView();
+            require_once(VIEWS_PATH."add-admin.php");
         }
 
         public function Register($email,$pass)
         {
-            $this->studentRegisteredDAO->register($email,$pass);
-            $this->ShowHomeView();
+            if($this->studentDAO->checkConnectionAppi()==true)
+            {
+                $message=$this->studentDAO->register($email,$pass);
+                require_once(VIEWS_PATH."home.php");
+            } else {
+                $message = "API DESCONECTADA";
+                require_once(VIEWS_PATH."home.php");
+            }
+            
         }
 
         public function Remove($id)
         {        
-            $this->studentRegisteredDAO->Remove($id);
+            $this->studentDAO->Remove($id);
 
             $this->ShowListView();
         }
+
+        public function AddAdmin($name,$fileNumber,$surname,$password,$email)
+        {
+            $this->studentDAO->addAdmin($name,$fileNumber,$surname,$password,$email);
+            $this->ShowAddAdminView();
+        }
+
+        
     }
 ?>

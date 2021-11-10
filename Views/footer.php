@@ -3,7 +3,7 @@
 </div>
 <div class="wrapper row6">
   <div id="copyright" class="clear" align="center"> 
-    <p >Copyright &copy; <?php echo date('Y'); ?> - All Rights Reserved - CAMPANELLA LORENZO</p>
+    <p >Copyright &copy; <?php echo date('Y'); ?> - All Rights Reserved - CAMPANELLA LORENZO & IVAN BRAVO</p>
   </div>
 </div>
 <!-- JAVASCRIPTS -->

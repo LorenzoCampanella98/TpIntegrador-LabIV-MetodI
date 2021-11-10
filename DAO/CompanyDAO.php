@@ -1,19 +1,17 @@
 <?php namespace DAO;
 
-    use DAO\ICompanyOkDAO as ICompanyOkDAO;
-    use Models\CompanyOk as CompanyOk;
+    use DAO\ICompanyDAO as ICompanyDAO;
+    use Models\Company as Company;
     use DAO\Connection as Connection;
     use DAO\QueryType as QueryType;
 
-    class CompanyOkDAO implements ICompanyOkDAO
+    class CompanyDAO implements ICompanyDAO
     {
         private $connection;
-        private $tableName="companies";
 
-        public function Add(CompanyOk $company)
+        public function Add(Company $company)
         {
-            $query = "CALL Companies_Add(?,?,?,?,?,?,?)";
-            $parameters["companyId"] =  $this->GetNextId();
+            $query = "CALL Companies_Add(?,?,?,?,?,?)";
             $parameters["name"]= $company->getName();
             $parameters["cuit"] = $company->getCuit();
             $parameters["company_link"] = $company->getCompanyLink();
@@ -35,7 +33,7 @@
             $result = $this->connection->Execute($query,array(),QueryType::StoredProcedure);
             foreach($result as $row)
             {
-                $company = new CompanyOk();
+                $company = new Company();
                 $company->setCompanyId($row["companyId"]);
                 $company->setName($row["name"]);
                 $company->setCuit($row["cuit"]);
@@ -50,23 +48,13 @@
 
         public function GetById($id)
         {
-            $query = "Call Companies_GetById()";
-            $this->connection = Connection::GetInstance();
-            $result = $this->connection->Execute($query,array(),QueryType::StoredProcedure); //tengo tods los datos de la BD
-            $company = null;
-            foreach($result as $row)
-            {
-                if($row["companyId"]== $id)
+            $companyList=$this->GetAll(); //traigo la company a modificar
+            $company = new Company();
+            foreach($companyList as $value) {
+                if($value->getCompanyId() == $id) //filtro busqueda
                 {
-                    $company = new CompanyOk();
-                    $company->setCompanyId($row["companyId"]);
-                    $company->setName($row["name"]);
-                    $company->setCuit($row["cuit"]);
-                    $company->setCompanyLink($row["company_link"]);
-                    $company->setAboutUs($row["aboutUs"]);
-                    $company->setDescription($row["description"]);
-                    $company->setActive($row["active"]);
-                } 
+                  $company = $value;
+                }
             }
             return $company;
         }
@@ -108,21 +96,10 @@
             return $aux;
         }
 
-        private function GetNextId()
-        {
-            $companyList=$this->GetAll();
-            $id = 0;
-            foreach($companyList as $company)
-            {
-                $id = ($company->getCompanyId() > $id) ? $company->getCompanyId() : $id;
-            }
-            return $id + 1;
-        }
-
         public function ChangeStatus($id)
         {
             $companyList=$this->GetAll(); //traigo la company a modificar
-            $company = new CompanyOk();
+            $company = new Company();
             foreach($companyList as $value) {
                 if($value->getCompanyId() == $id) //filtro busqueda
                 {
@@ -143,6 +120,22 @@
 
         public function Modify($id,$name,$company_link,$aboutUs,$description,$active)
         {
+            $company = $this->GetById($id); //por si alguno de los valores no los modifico tomo los que ya estan y sobreescribo
+            if($name==''){
+                $name=$company->getName();
+            }
+            if($company_link=='')
+            {
+                $company_link=$company->getCompanyLink();
+            }
+            if($aboutUs=='')
+            {
+                $aboutUs=$company->getAboutUs();
+            }
+            if($description=='')
+            {
+                $description=$company->getDescription();
+            }
             $query = "CALL Companies_Modify(?,?,?,?,?,?)";
             $parameters["companyId"] =  $id;
             $parameters["name"]=$name;
@@ -157,7 +150,7 @@
         public function Search($id)
         {
             $companyList=$this->GetAll(); //traigo la company a modificar
-            $company = new CompanyOk();
+            $company = new Company();
             foreach($companyList as $value) {
                 if($value->getCompanyId() == $id) //filtro busqueda
                 {
@@ -181,7 +174,7 @@
                     }
                     if($flag==true)
                     { 
-                        $company = new CompanyOk();
+                        $company = new Company();
                         $company = $content;
                         array_push($list_filter, $company);
                     } 
