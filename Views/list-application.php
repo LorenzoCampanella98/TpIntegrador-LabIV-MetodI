@@ -93,7 +93,7 @@
           </tbody>
         </table>
         <?php } ?>
-        <?php if($message!=null) {?>
+        <?php if(isset($message)) {?>
           <table>
             <tr>
               <th>
