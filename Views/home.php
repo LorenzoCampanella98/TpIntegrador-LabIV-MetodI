@@ -31,14 +31,26 @@
       <div class="div-login">  
         <form action="<?php echo FRONT_ROOT."Home/Login" ?>" method="post">
           <input class="input-login" type="text" name="email" placeholder="Email"  required>
-          <input class="input-login" type="password" name="password" placeholder="phone number" maxlength="29" required >
+          <input class="input-login" type="password" name="password" placeholder="Pass" maxlength="29" required >
           <button class="btn-login btn" type="submit" name="btnLogin">Ingresar</button>
         </form>
       </div>
       <div class="div-login"> <!-- para el registro -->  
       <a class="btn-login btn" href="<?php echo  FRONT_ROOT."Student/ShowAddView "?>">REGISTRARSE</a>
+      <?php if(isset($message)) {?>
+      <table>
+         <tr>
+              <th style="width: 25%;"><?php echo "SYSTEM: "  ?></th>
+              <th style="width: 75%;"><?php echo $message  ?></th>
+              
+          </tr>
+      </table>
+        <?php } ?>
       </div>
-      </div> <?php 
+      </div>
+      
+      
+      <?php 
     } else { 
       $student_actual=$_SESSION["loggedUser"]; //Guardo el session en student para mostrarlo?>
       <div class="hoc container clear">
@@ -53,6 +65,7 @@
               <th style="width: 15%;">Email</th>
               <th style="width: 15%;">Password</th>
               <th style="width: 10%;">postulated</th>
+              <th style="width: 10%;">Type Student</th>
             </tr>
           </thead>
           <tbody>
@@ -64,6 +77,7 @@
               <td><?php echo $student_actual->getEmail() ?></td>
               <td><?php echo $student_actual->getPassword() ?></td>
               <td><?php echo $student_actual->getPostulated() ?></td>
+              <td><?php echo $student_actual->getTypeStudentId() ?></td>
               </tr>
           </tbody>
         </table>

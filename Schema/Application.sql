@@ -4,7 +4,7 @@ USE tpfinal;
 
 CREATE TABLE IF NOT EXISTS applications
 (
-    applicationId INT NOT NULL PRIMARY KEY,
+    applicationId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     applicationDate  VARCHAR(30) NOT NULL,
     studentId INT NOT NULL,
     jobOfferId INT NOT NULL,
@@ -18,14 +18,14 @@ DROP procedure IF EXISTS `Applications_Add`;
 
 DELIMITER $$
 
-CREATE PROCEDURE Applications_Add (IN applicationId CHAR(4),IN applicationDate VARCHAR(30), IN studentId CHAR (4),IN jobOfferId CHAR (4), 
+CREATE PROCEDURE Applications_Add (IN applicationDate VARCHAR(30), IN studentId CHAR (4),IN jobOfferId CHAR (4), 
 IN description VARCHAR(30),IN active boolean)
 BEGIN
 	INSERT INTO applications
-        (applications.applicationId,applications.applicationDate,applications.studentId,applications.jobOfferId,applications.description,
+        (applications.applicationDate,applications.studentId,applications.jobOfferId,applications.description,
         applications.active)
     VALUES
-        (applicationId,applicationDate,studentId,jobOfferId,description,active);
+        (applicationDate,studentId,jobOfferId,description,active);
 END$$
 
 DELIMITER ;

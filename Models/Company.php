@@ -1,6 +1,6 @@
 <?php namespace Models;
 
-    class CompanyOk
+    class Company
     {
         private $companyId;
         private $name;

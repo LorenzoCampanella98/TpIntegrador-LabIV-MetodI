@@ -5,7 +5,9 @@
     use Models\JobPosition as JobPosition; //lo uso para la funcion reireve data jobPosition para usar en el add de job offer
     use DAO\Connection as Connection;
     use DAO\QueryType as QueryType;
-use Models\Career;
+
+    use DAO\ApplicationDAO as ApplicationDAO; //los uso para armar una lista de estudiantes que aplicarona a una job offer
+    use DAO\StudentDAO as StudentDAO;
 
 class JobOfferDAO implements IJobOfferDAO
     {
@@ -14,8 +16,7 @@ class JobOfferDAO implements IJobOfferDAO
 
         public function Add(JobOffer $jobOffer)
         {
-            $query = "CALL JobOffers_Add(?,?,?,?,?,?,?,?,?,?)";
-            $parameters["jobOfferId"] =  $this->GetNextId();
+            $query = "CALL JobOffers_Add(?,?,?,?,?,?,?,?,?)";
             $parameters["publicationDate"]= $jobOffer->getPublicationDate();
             $parameters["expiryDate"] = $jobOffer->getExpiryDate();
             $parameters["description"] = $jobOffer->getDescription();
@@ -55,30 +56,28 @@ class JobOfferDAO implements IJobOfferDAO
             }
             return $jobOfferList;
         }
+        public function GetById($id)
+        {
+            $jobOfferList=$this->GetAll(); //traigo la company a modificar
+            $jobOffer = new JobOffer();
+            foreach($jobOfferList as $value) {
+                if($value->getJobOfferId() == $id) //filtro busqueda
+                {
+                  $jobOffer = $value;
+                }
+            }
+            return $jobOffer;
+        }
 
         public function Remove($id)
         {
             $query = "CALL JobOffers_Remove(?)";
-
             $parameters["id"] =  $id;
-
             $this->connection = Connection::GetInstance();
-
             $this->connection->ExecuteNonQuery($query, $parameters, QueryType::StoredProcedure);
         }
 
-        
-        private function GetNextId()
-        {
-            $jobOfferList=$this->GetAll();
-            $id = 0;
-            foreach($jobOfferList as $jobOffer)
-            {
-                $id = ($jobOffer->getJobOfferId() > $id) ? $jobOffer->getJobOfferId() : $id;
-            }
-            return $id + 1;
-        }
-
+      
         public function ChangeStatus($id)
         {
             $jobOfferList=$this->GetAll(); //traigo la company a modificar
@@ -103,6 +102,18 @@ class JobOfferDAO implements IJobOfferDAO
 
         public function Modify($id,$description,$skills,$tasks,$active)
         {
+            $jobOffer = $this->GetById($id);
+            if($description==''){
+                $description=$jobOffer->getDescription();
+            }
+            if($skills=='')
+            {
+                $skills=$jobOffer->getSkills();
+            }
+            if($tasks=='')
+            {
+                $tasks=$jobOffer->getTasks();
+            }
             $query = "CALL JobOffers_Modify(?,?,?,?,?)";
             $parameters["JobOfferId"] =  $id;
             $parameters["description"]=$description;
@@ -114,7 +125,7 @@ class JobOfferDAO implements IJobOfferDAO
         }
 
         private function RetrieveDataJobPosition() //carga en memoria todos los job position
-        { //FILTRAR QUE SOLO SE CARGEN LAS QUE TIENEN LA CAREER ACTIVA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        {
             $jobPositionList = array();
             $ch = curl_init();
             $url = 'https://utn-students-api.herokuapp.com/api/JobPosition';
@@ -235,6 +246,7 @@ class JobOfferDAO implements IJobOfferDAO
             return $aux; //retornaria la career
         }
 
+        
         public function ListFilterByCareer($text)
         {
             $list_jobOffer = $this->GetAll();
@@ -251,21 +263,16 @@ class JobOfferDAO implements IJobOfferDAO
                         }
                     }
                     $flag = false;
-                    
-                    if(strcmp($cadena_texto, $text) === 0)
+                    if(stristr($cadena_texto, $text) !== false)
                     {
-                        $flag = true;
-                    }
-                    if($flag==true)
-                    { 
                         $jobOffer = new JobOffer();
                         $jobOffer = $content;
                         array_push($list_filter, $jobOffer);
-                    } 
+                    }
                  }
             return $list_filter;
         }
-
+    
         public function ListFilterbyJobPosition($text)
         {
             $list_jobOffer = $this->GetAll();
@@ -282,22 +289,31 @@ class JobOfferDAO implements IJobOfferDAO
                         }
                     }
                     $flag = false;
-                    if(strcmp($cadena_texto, $text) === 0)
+                    if(stristr($cadena_texto, $text) !== false)
                     {
-                        $flag = true;
-                    }
-                    if($flag==true)
-                    { 
                         $jobOffer = new JobOffer();
                         $jobOffer = $content;
                         array_push($list_filter, $jobOffer);
-                    } 
+                    }
                  }
             return $list_filter;
         }
         
-
+        public function ListStudentsFilterByJoboffer($id) //para view de listar alumnos de job offer
+        {
+            $StudentDAO= new StudentDAO;
+            $applicationDAO = new ApplicationDAO;
+            $applicationList = $applicationDAO->getAll();
+            $studentList = array();
+            foreach ($applicationList as $application)
+            {
+                if($application->getJobOfferId()==$id)
+                {
+                    $student=$StudentDAO->GetById($application->getStudentId());
+                    array_push($studentList,$student);
+                }
+            }
+            return $studentList;
+        }
     }
-
-
 ?>

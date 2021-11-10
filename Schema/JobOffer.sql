@@ -4,7 +4,7 @@ USE tpfinal;
 
 CREATE TABLE IF NOT EXISTS joboffers
 (
-    jobOfferId INT NOT NULL PRIMARY KEY,
+    jobOfferId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     publicationDate  VARCHAR(30) NOT NULL,
     expiryDate  VARCHAR(30) NOT NULL,
     description VARCHAR(30) NOT NULL,
@@ -22,14 +22,14 @@ DROP procedure IF EXISTS `JobOffers_Add`;
 
 DELIMITER $$
 
-CREATE PROCEDURE JobOffers_Add (IN jobOfferId CHAR(4),IN publicationDate VARCHAR(30), IN expiryDate VARCHAR(30) , 
+CREATE PROCEDURE JobOffers_Add (IN publicationDate VARCHAR(30), IN expiryDate VARCHAR(30) , 
 IN description VARCHAR(30),IN skills VARCHAR(30),IN tasks VARCHAR(30),IN jobPositionId CHAR (4),IN companyId CHAR (4),IN careerId char (4),IN active boolean)
 BEGIN
 	INSERT INTO joboffers
-        (joboffers.jobOfferId,joboffers.publicationDate,joboffers.expiryDate,joboffers.description,joboffers.skills,joboffers.tasks,joboffers.jobPositionId,
+        (joboffers.publicationDate,joboffers.expiryDate,joboffers.description,joboffers.skills,joboffers.tasks,joboffers.jobPositionId,
          joboffers.companyId,jobOffers.careerId,joboffers.active)
     VALUES
-        (jobOfferId,publicationDate,expiryDate,description,skills,tasks,jobPositionId,companyId,careerId,active);
+        (publicationDate,expiryDate,description,skills,tasks,jobPositionId,companyId,careerId,active);
 END$$
 
 DELIMITER ;

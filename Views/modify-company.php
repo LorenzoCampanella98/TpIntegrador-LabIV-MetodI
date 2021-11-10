@@ -17,8 +17,8 @@
               <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>About</th>
                 <th>Link</th>
+                <th>About</th>
                 <th>Description</th>
                 <th>Status</th>
               </tr>
@@ -29,21 +29,21 @@
                   <input type="number" name="id" size="22" min="0" required>
                 </td>
                 <td style="max-width: 120px;">    
-                  <input type="text" name="name" size="22" min="0" maxlength="29" required>
+                  <input type="text" name="name" size="22" min="0" maxlength="29" >
                 </td>
                 <td style="max-width: 120px;">    
-                  <input type="text" name="company_link" size="22" min="0" maxlength="29" required>
+                  <input type="text" name="company_link" size="22" min="0" maxlength="29" >
                 </td>
                 <td style="max-width: 120px;">    
-                  <input type="text" name="aboutUs" size="22" min="0" maxlength="29" required>
+                  <input type="text" name="aboutUs" size="22" min="0" maxlength="29" >
                 </td>
                 <td style="max-width: 120px;">    
-                  <input type="text" name="description" size="22" min="0" maxlength="29" required>
+                  <input type="text" name="description" size="22" min="0" maxlength="29" >
                 </td>
                 <td>
                   <input type="radio" id="active" name="active" value=1 required> <!--active envio 1-->
                   <label for="contactChoice1">Activate</label>
-                  <input type="radio" id="active" name="active" value=0 required> <!--desactived envio 0-->
+                  <input type="radio" id="active" name="active" value=0  required> <!--desactived envio 0-->
                   <label for="contactChoice2">Deactivate</label>
                 </td>         
               </tr>

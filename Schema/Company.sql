@@ -4,7 +4,7 @@ USE tpfinal;
 
 CREATE TABLE IF NOT EXISTS companies
 (
-    companyId INT NOT NULL PRIMARY KEY,
+    companyId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name NVARCHAR(30) NOT NULL,
     cuit NVARCHAR(30) NOT NULL,
     company_link NVARCHAR(30) NOT NULL,
@@ -31,12 +31,12 @@ DROP procedure IF EXISTS `Companies_Add`;
 
 DELIMITER $$
 
-CREATE PROCEDURE Companies_Add (IN companyId CHAR(4),IN name VARCHAR(30), IN cuit VARCHAR(30),IN company_link VARCHAR(30),IN aboutUs VARCHAR (30),IN description VARCHAR (30),IN active boolean)
+CREATE PROCEDURE Companies_Add (IN name VARCHAR(30), IN cuit VARCHAR(30),IN company_link VARCHAR(30),IN aboutUs VARCHAR (30),IN description VARCHAR (30),IN active boolean)
 BEGIN
 	INSERT INTO companies
-        (companies.companyId,companies.name,companies.cuit,companies.company_link,companies.aboutUs,companies.description,companies.active)
+        (companies.name,companies.cuit,companies.company_link,companies.aboutUs,companies.description,companies.active)
     VALUES
-        (companyId,name,cuit,company_link,aboutUs,description,active);
+        (name,cuit,company_link,aboutUs,description,active);
 END$$
 
 DELIMITER ;

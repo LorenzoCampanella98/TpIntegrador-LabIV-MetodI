@@ -10,8 +10,7 @@ class ApplicationDAO implements IApplicationDAO
         private $connection;
         public function Add(Application $application)
         {
-            $query = "CALL Applications_Add(?,?,?,?,?,?)";
-            $parameters["applicationId"] =  $this->GetNextId();
+            $query = "CALL Applications_Add(?,?,?,?,?)";
             $parameters["applicationDate"]= $application->getApplicationDate();
             $parameters["studentId"] = $application->getStudentId();
             $parameters["jobOfferId"] = $application->getJobOfferId();
@@ -55,22 +54,6 @@ class ApplicationDAO implements IApplicationDAO
             
         }
 
-        private function GetNextId()
-        {
-            $applicationList=$this->GetAll();
-            $id = 0;
-            foreach($applicationList as $application)
-            {
-                $id = ($application->getApplicationId() > $id) ? $application->getApplicationId() : $id;
-            }
-            return $id + 1;
-        }
-
-        public function ChangePostulated()
-        {
-
-        }
-
         public function GetStudentApplications($id)
         {
             $applicationList = array();
@@ -91,6 +74,28 @@ class ApplicationDAO implements IApplicationDAO
                 }
             }
             return $applicationList;
+        }
+
+        public function ChangeStatus($id) //para dar de baja
+        {
+            $query = "CALL Applications_ChangeStatus(?,?)";
+            $parameters["id"] =  $id;
+            $parameters["newSatus"] =0;
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $parameters, QueryType::StoredProcedure);
+        }
+
+        public function CheckApplicationStatus($id)
+        {
+            $applicationList=$this->GetAll(); //traigo la company a modificar
+            $application = new Application();
+            foreach($applicationList as $value) {
+                if($value->getApplicationId() == $id) //filtro busqueda
+                {
+                  $application = $value;  
+                }
+            }
+            return $application->getActive(); //retorna 0 desactvada 1 activada
         }
     }
 

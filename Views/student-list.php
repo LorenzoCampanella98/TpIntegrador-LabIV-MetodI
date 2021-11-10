@@ -18,6 +18,7 @@
               <th style="width: 15%;">Surname</th>
               <th style="width: 15%;">Email</th>
               <th style="width: 10%;">postulated</th>
+              <th style="width: 10%;">Type Student</th>
             </tr>
           </thead>
           <tbody>
@@ -32,11 +33,14 @@
                       <td><?php echo $student->getSurname() ?></td>
                       <td><?php echo $student->getEmail() ?></td>
                       <td><?php echo $student->getPostulated() ?></td>
-
+                      <td><?php echo $student->getTypeStudentId() ?></td>
+                      <?php if($student->getTypeStudentId()==1) {?> <!-- MUESTRA para TODOS MENOS AL ADMIN-->
                       <td>
                       <button type="submit" name="id" class="btn" value="<?php echo $student->getStudentId() ?>"> Remove </button>
                       </td>
-                    </tr>
+                       <?php }?>
+                    </tr> 
+                
                   <?php
                 }
               ?> 

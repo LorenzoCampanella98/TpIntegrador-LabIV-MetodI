@@ -8,10 +8,30 @@
   <main class="hoc container clear"> 
     <div class="content"> 
       <div class="scrollable">
+      <form action="<?php echo FRONT_ROOT?> Application/BajaAplication" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
+          <table> 
+            <thead>
+              <tr>
+                <th>Application Id</th>
+              </tr>
+            </thead>
+            <tbody align="center">
+              <tr>
+                <td style="max-width: 120px;">    
+                  <input type="number" name="id" size="22" min="0" maxlength="29" required>
+                </td>      
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <input type="submit" class="btn" value="Dar de Baja" style="background-color:#DC8E47;color:white;"/>
+          </div>
+        </form>
       <form action="<?php echo FRONT_ROOT?>JobOffer/SearchForApplications" method="">
         <table style="text-align:center;">
           <thead>
             <tr>
+              <th style="width: 15%;">Application ID</th>
               <th style="width: 15%;">Date</th>
               <th style="width: 30%;">Description</th>
               <th style="width: 30%;">JobOfferId</th>
@@ -24,13 +44,14 @@
                 {
                   ?>
                     <tr>
+                      <td><?php echo $application->getApplicationId() ?></td>
                       <td><?php echo $application->getApplicationDate() ?></td>
                       <td><?php echo $application->getDescription() ?></td>
                       <td><?php echo $application->getJobOfferId() ?></td>
                       <td><?php echo $application->getActive() ?></td>
                       <td>
-                      <button type="submit" name="id" class="btn" value="<?php echo $application->getJobOfferId() ?>"> Select </button> <!-- USO LA BUSQUEDA POR NAME PERO DE LA SELECCIONADA-->
-                    </td>
+                      <button type="submit" name="id" class="btn" value="<?php echo $application->getJobOfferId() ?>"> VER </button> <!-- USO LA BUSQUEDA POR NAME PERO DE LA SELECCIONADA-->
+                      </td>
                     </tr>
                   <?php
                 }
@@ -40,6 +61,7 @@
       </form>
       </div>
       <?php if ($jobOffer!=null) { ?>
+        
       <table style="text-align:center;">
           <thead>
           <tr>
@@ -71,6 +93,15 @@
           </tbody>
         </table>
         <?php } ?>
+        <?php if($message!=null) {?>
+          <table>
+            <tr>
+              <th>
+              <th style="width: 100%;"><?php echo $message  ?></th>
+              </th>
+            </tr>
+          </table>
+        <?php  }?>
     </div>
   </main>
 </div>

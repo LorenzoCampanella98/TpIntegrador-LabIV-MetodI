@@ -1,6 +1,8 @@
-<?php 
+<?php
 
-    include('header.php');
+use Models\JobOffer;
+
+include('header.php');
     include('nav-bar.php');
     require_once('validate-session.php');
 ?>
@@ -11,6 +13,46 @@
     <div class="content" > 
       <div id="comments" style="align-items:center;">
         <h2>Search JobOffer</h2>
+        <form action="<?php echo FRONT_ROOT?> JobOffer/FilterByCareer" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
+          <table> 
+            <thead>
+              <tr>
+                <th>Career</th>
+              </tr>
+            </thead>
+            <tbody align="center">
+              <tr>
+                <td style="max-width: 120px;">    
+                  <input type="text" name="text" size="22" min="0" maxlength="29" required>
+                </td>      
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <input type="submit" class="btn" value="Search" style="background-color:#DC8E47;color:white;"/>
+          </div>
+        </form>
+        <form action="<?php echo FRONT_ROOT?> JobOffer/FilterByJobPosition" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
+          <table> 
+            <thead>
+              <tr>
+                <th>Job Position</th>
+              </tr>
+            </thead>
+            <tbody align="center">
+              <tr>
+                <td style="max-width: 120px;">    
+                  <input type="text" name="text" size="22" min="0" maxlength="29" required>
+                </td>      
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <input type="submit" class="btn" value="Search" style="background-color:#DC8E47;color:white;"/>
+          </div>
+        </form>
+
+        
         <form action="<?php echo FRONT_ROOT?> JobOffer/FilterByCareer" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
         <table> 
             <thead>
@@ -42,6 +84,7 @@
             </tbody>
           </table>
         </form>
+        
         <form action="<?php echo FRONT_ROOT?> JobOffer/FilterByJobPosition" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
         <table> 
             <thead>
@@ -75,11 +118,13 @@
         </form>
     </div>
     <!-- / main body -->
+    
     <div class="clear"></div>
       <div class="content"> 
         <div class="scrollable">
           <form action="<?php echo FRONT_ROOT?>Application/Add" method="">
-          <table style="text-align:center;">
+          <?php if($jobOffer->getJobOfferId()!=null) {?>
+            <table style="text-align:center;">
             <thead>
               <tr>
               <th style="width: 20%;">JobOffer Id</th>
@@ -106,27 +151,34 @@
                     <td><?php echo $company->getName() ?></td>
                     <td><?php echo $career["description"] ?></td>
                     <td><?php echo $jobOffer->getActive() ?></td>
-                    <?php if ( $_SESSION["loggedUser"]->getName()!="admin" && $_SESSION["loggedUser"]->getPostulated()==0 && $jobPosition != null) { //solo si el user no es admin se puede aplicar?>
+                    <?php if ( $_SESSION["loggedUser"]->getTypeStudentId()==1 && $_SESSION["loggedUser"]->getPostulated()==0 && $jobPosition != null) { //solo si el user no es admin se puede aplicar?>
                       
-                      <td>
-                        <button type="submit" name="id" class="btn" value="<?php echo $jobOffer->getJobOfferId() ?>"> Apply </button>
-                      </td>
-                    
-              <tr style="max-width: 120px;">
+              </tr>
+            </tbody>
+            </table>
+            <table>
+              <tr>
                 <th>Description</th>
               </tr>
             </thead>
             <tbody align="center">
               <tr>
-                <td style="max-width: 120px;">    
-                <input type="text" name="description" size="22" min="0" required>
-                </td>      
-              </tr>
-              <input type="text" name="studentId" size="22" min="0" value="<?php echo $_SESSION["loggedUser"]->getStudentId() ?>"  style="visibility:hidden">
+                <td style="max-width: 500px;">    
+                  <input type="text" name="description" size="22" min="0" required>
+                </td>
+               
+                   <input type="number" name="studentId" size="22" min="0" value="<?php echo $_SESSION["loggedUser"]->getStudentId() ?>"  style="visibility:hidden">
+                   <input type="number" name="jobOfferId" size="22" min="0" value="<?php  echo $jobOffer->getJobOfferId() ?>"  style="visibility:hidden">
+                <td>
+                        <button type="submit" name="id" class="btn"> Apply </button>
+                </td>
+             
                     <?php }?>
-              </tr>
+              
             </tbody>
-          </table>
+            </table></table>
+          <?php } ?>
+          
           </form>
           <form action="<?php echo FRONT_ROOT?>JobOffer/Search" method="">
         <table style="text-align:center;">

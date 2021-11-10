@@ -28,13 +28,13 @@
                   <input type="number" name="id" size="22" min="0" required>
                 </td>
                 <td style="max-width: 120px;">    
-                  <input type="text" name="description" size="22" min="0"  maxlength="29" required>
+                  <input type="text" name="description" size="22" min="0"  maxlength="29" >
                 </td>
                 <td style="max-width: 120px;">    
-                  <input type="text" name="skills" size="22" min="0"  maxlength="29" required>
+                  <input type="text" name="skills" size="22" min="0"  maxlength="29" >
                 </td>
                 <td style="max-width: 120px;">    
-                  <input type="text" name="tasks" size="22" min="0" maxlength="29" required>
+                  <input type="text" name="tasks" size="22" min="0" maxlength="29" >
                 </td>
                 <td>
                   <input type="radio" id="active" name="active" value=1 required> <!--active envio 1-->
