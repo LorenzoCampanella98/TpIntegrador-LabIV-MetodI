@@ -5,15 +5,33 @@
     use DAO\Connection as Connection;
     use DAO\QueryType as QueryType;
 
+    use DAO\StudentDAO as StudentDAO;
+    use DAO\JobOfferDAO as JobOfferDAO;
+
+    /*use Models\Student as Student;
+    use Models\JobOffer as JobOffer;*/
+
 class ApplicationDAO implements IApplicationDAO
     {
         private $connection;
+    
         public function Add(Application $application)
         {
+            /*$student = new Student();
+            $jobOffer = new JobOffer();
+            $student=$application->getStudent();
+            $jobOffer=$application->getJobOffer();
+            var_dump($application);
+            var_dump($application->getStudent());
+            var_dump($application->getApplicationDate());
+            var_dump($jobOffer);*/
+            
             $query = "CALL Applications_Add(?,?,?,?,?)";
+
+            
             $parameters["applicationDate"]= $application->getApplicationDate();
-            $parameters["studentId"] = $application->getStudentId();
-            $parameters["jobOfferId"] = $application->getJobOfferId();
+            $parameters["studentId"] = $application->getStudent()->getStudentId();
+            $parameters["jobOfferId"] = $application->getJobOffer()->getJobOfferId();
             $parameters["description"] = $application->getDescription();
             $parameters["active"] = $application->getActive();
             
@@ -24,6 +42,8 @@ class ApplicationDAO implements IApplicationDAO
         
         public function GetAll()
         {
+            $studentDAO = new StudentDAO;
+            $jobOfferDAO = new JobOfferDAO;
             $applicationList = array();
             $query = "Call Applications_GetAll()";
             $this->connection = Connection::GetInstance();
@@ -33,8 +53,8 @@ class ApplicationDAO implements IApplicationDAO
                 $application = new Application();
                 $application->setApplicationId($row["applicationId"]);
                 $application->setApplicationDate($row["applicationDate"]);
-                $application->setStudentId($row["studentId"]);
-                $application->setJobOfferId($row["jobOfferId"]);
+                $application->setStudent($studentDAO->GetById($row["studentId"])); //devuelve un student
+                $application->setJobOffer($jobOfferDAO->SearchJobOffer($row["jobOfferId"])); //devuelve el Job Offer
                 $application->setDescription($row["description"]);
                 $application->setActive($row["active"]);
                 array_push($applicationList, $application);
@@ -54,8 +74,10 @@ class ApplicationDAO implements IApplicationDAO
             
         }
 
-        public function GetStudentApplications($id)
+        public function GetStudentApplications($id) //hace una lista de las aplicaciones para este usuario
         {
+            $studentDAO = new StudentDAO;
+            $jobOfferDAO = new JobOfferDAO;
             $applicationList = array();
             $query = "Call Applications_GetAll()";
             $this->connection = Connection::GetInstance();
@@ -66,8 +88,9 @@ class ApplicationDAO implements IApplicationDAO
                     $application = new Application();
                     $application->setApplicationId($row["applicationId"]);
                     $application->setApplicationDate($row["applicationDate"]);
-                    $application->setStudentId($row["studentId"]);
-                    $application->setJobOfferId($row["jobOfferId"]);
+                    $application->setStudent($studentDAO->GetById($row["studentId"])); //devuelve un student
+                    $application->setJobOffer($jobOfferDAO->SearchJobOffer($row["jobOfferId"])); //devuelve el Job Offe
+                    
                     $application->setDescription($row["description"]);
                     $application->setActive($row["active"]);
                     array_push($applicationList, $application);

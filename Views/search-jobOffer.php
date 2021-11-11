@@ -52,70 +52,6 @@ include('header.php');
           </div>
         </form>
 
-        
-        <form action="<?php echo FRONT_ROOT?> JobOffer/FilterByCareer" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
-        <table> 
-            <thead>
-              <tr>
-                <th>Career</th>
-              </tr>
-            </thead>
-            <tbody align="center">
-              <tr>
-              <td >  <select name="text">  
-                <?php 
-              foreach($careerList as $value)
-              {
-                
-                ?>
-                  <option 
-                    value="<?php echo $value["description"];?>"><?php echo $value["description"];?>
-                  </option>
-                <?php   
-              }
-            ?> 
-                </td></select> 
-                <td>
-                
-                    <input type="submit" class="btn" value="Search" style="background-color:#DC8E47;color:white;"/>
-                  
-                </td>     
-              </tr>
-            </tbody>
-          </table>
-        </form>
-        
-        <form action="<?php echo FRONT_ROOT?> JobOffer/FilterByJobPosition" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
-        <table> 
-            <thead>
-              <tr>
-                <th>JobPosition</th>
-              </tr>
-            </thead>
-            <tbody align="center">
-              <tr>
-              <td >  <select name="text">  
-                <?php 
-              foreach($jobPositionList as $value)
-              {
-                
-                ?>
-                  <option 
-                    value="<?php echo $value["description"];?>"><?php echo $value["description"];?>
-                  </option>
-                <?php   
-              }
-            ?> 
-                </td></select> 
-                <td>
-                
-                    <input type="submit" class="btn" value="Search" style="background-color:#DC8E47;color:white;"/>
-                  
-                </td>     
-              </tr>
-            </tbody>
-          </table>
-        </form>
     </div>
     <!-- / main body -->
     
@@ -133,9 +69,9 @@ include('header.php');
               <th style="width: 30%;">Description</th>
               <th style="width: 25%;">Skills</th>
               <th style="width: 25%;">Tasks</th>
-              <th style="width: 25%;">Job Position</th>
+              <th style="width: 25%;">Job Position Desc</th>
               <th style="width: 25%;">Company</th>
-              <th style="width: 25%;">Career</th> 
+              <th style="width: 25%;">Career Desc</th> 
               <th style="width: 25%;">Active</th>
               </tr>
             </thead>
@@ -147,11 +83,11 @@ include('header.php');
                     <td><?php echo $jobOffer->getDescription() ?></td>
                     <td><?php echo $jobOffer->getSkills() ?></td>
                     <td><?php echo $jobOffer->getTasks() ?></td>
-                    <td><?php echo $jobPosition["description"] ?></td>
-                    <td><?php echo $company->getName() ?></td>
-                    <td><?php echo $career["description"] ?></td>
+                    <td><?php echo $jobOffer->getJobPosition()->getDescription()?></td>
+                    <td><?php echo $jobOffer->getCompany()->getName()?></td>
+                    <td><?php echo $jobOffer->getJobPosition()->getCareer()->getDescription()?></td>
                     <td><?php echo $jobOffer->getActive() ?></td>
-                    <?php if ( $_SESSION["loggedUser"]->getTypeStudentId()==1 && $_SESSION["loggedUser"]->getPostulated()==0 && $jobPosition != null) { //solo si el user no es admin se puede aplicar?>
+                    <?php if ( $_SESSION["loggedUser"]->getTypeStudentId()==1 && $_SESSION["loggedUser"]->getPostulated()==0) { //solo si el user no es admin se puede aplicar?>
                       
               </tr>
             </tbody>
@@ -164,7 +100,7 @@ include('header.php');
             <tbody align="center">
               <tr>
                 <td style="max-width: 500px;">    
-                  <input type="text" name="description" size="22" min="0" required>
+                  <input type="text" name="description" size="22" maxlength="29" min="0" required>
                 </td>
                
                    <input type="number" name="studentId" size="22" min="0" value="<?php echo $_SESSION["loggedUser"]->getStudentId() ?>"  style="visibility:hidden">
@@ -184,10 +120,10 @@ include('header.php');
         <table style="text-align:center;">
           <thead>
             <tr>
-              <th style="width: 40%;">Description</th>
-              <th style="width: 20%;">Skills</th>
-              <th style="width: 20%;">Tasks</th>
-              <th style="width: 40%;">Expiration Date</th>
+              <th style="width: 40%;">Job Offer</th>
+              <th style="width: 20%;">JobPosition</th>
+              <th style="width: 20%;">Company</th>
+              <th style="width: 40%;">Career</th>
             </tr>
           </thead>
           <tbody>
@@ -201,9 +137,9 @@ include('header.php');
                 ?>
                   <tr>
                     <td><?php echo $value->getDescription() ?></td>
-                    <td><?php echo $value->getSkills() ?></td>
-                    <td><?php echo $value->getTasks() ?></td>
-                    <td><?php echo $value->getExpiryDate() ?></td>
+                    <td><?php echo $value->getJobPosition()->getDescription() ?></td>
+                    <td><?php echo $value->getCompany()->getName() ?></td>
+                    <td><?php echo $value->getJobPosition()->getCareer()->getDescription() ?></td>
                     <td>
                       <button type="submit" name="id" class="btn" value="<?php echo $value->getJobOfferId() ?>"> Select </button> <!-- USO LA BUSQUEDA POR NAME PERO DE LA SELECCIONADA-->
                     </td>

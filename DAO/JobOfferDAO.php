@@ -9,6 +9,12 @@
     use DAO\ApplicationDAO as ApplicationDAO; //los uso para armar una lista de estudiantes que aplicarona a una job offer
     use DAO\StudentDAO as StudentDAO;
 
+    use DAO\CompanyDAO as CompanyDAO; //ultima modificacion company dentro de JobOffer
+    
+    use Models\Career as Career;
+
+    use Models\Application;
+
 class JobOfferDAO implements IJobOfferDAO
     {
         private $connection;
@@ -22,9 +28,9 @@ class JobOfferDAO implements IJobOfferDAO
             $parameters["description"] = $jobOffer->getDescription();
             $parameters["skills"] = $jobOffer->getSkills();
             $parameters["tasks"] = $jobOffer->getTasks();
-            $parameters["jobPositionId"] = $jobOffer->getJobPositionId();
-            $parameters["companyId"] = $jobOffer->getCompanyId();
-            $parameters["careerId"] = $this->loadCareerFromJobPosition($jobOffer->getJobPositionId());//la funcion necesita el id del jobposition seleccionado
+            $parameters["jobPositionId"] = $jobOffer->getJobPosition()->getJobPositionId();
+            $parameters["companyId"] = $jobOffer->getCompany()->getCompanyId();
+            $parameters["careerId"] = $jobOffer->getJobPosition()->getCareer()->getCarreerId();
             $parameters["active"] = $jobOffer->getActive();
 
             $this->connection = Connection::GetInstance();
@@ -35,6 +41,7 @@ class JobOfferDAO implements IJobOfferDAO
 
         public function GetAll()
         {
+            $companyADO = new CompanyDAO;
             $jobOfferList = array();
             $query = "Call JobOffers_GetAll()";
             $this->connection = Connection::GetInstance();
@@ -48,9 +55,10 @@ class JobOfferDAO implements IJobOfferDAO
                 $company->setDescription($row["description"]);
                 $company->setSkills($row["skills"]);
                 $company->setTasks($row["tasks"]);
-                $company->setJobPositionId($row["jobPositionId"]);
-                $company->setCompanyId($row["companyId"]);
-                $company->setCareerId($row["careerId"]);
+                //$company->setJobPositionId($row["jobPositionId"]);
+                $company->setJobPosition($this->GetJobPositionById($row["jobPositionId"]));
+                $company->setCompany($companyADO->GetById($row["companyId"])); //devuelve un Comany
+                //$company->setCareerId($row["careerId"]);
                 $company->setActive($row["active"]);
                 array_push($jobOfferList, $company);
             }
@@ -122,6 +130,33 @@ class JobOfferDAO implements IJobOfferDAO
             $parameters["active"] =  $active;
             $this->connection = Connection::GetInstance();
             $this->connection->ExecuteNonQuery($query, $parameters, QueryType::StoredProcedure);
+        }
+
+        public function GetJobPositionById($id) // DESCOMPOSICION POR ID PASADO! FUNCION AGREGADA PARA COMPOSICION DE OBJ
+        { //JOBOFFER->JOB POSITION->CAREER
+            $jobPositionList = $this->RetrieveDataJobPosition();
+            $careersList = $this->RetrieveDataCareers();
+            $jobPosition = new JobPosition();
+            $career = new Career  ();
+            foreach($jobPositionList as $value)
+            {
+                if($value["jobPositionId"]==$id)
+                {
+                    $jobPosition->setJobPositionId($id);
+                    $jobPosition->setDescription($value["description"]);
+                    foreach ($careersList as $valueCareer)
+                    {
+                        if($value["careerId"]==$valueCareer["careerId"])
+                        {
+                            $career->setCarreerId($valueCareer["careerId"]);
+                            $career->setDescription($valueCareer["description"]);
+                            $career->setActive($valueCareer["active"]);
+                        }
+                    }
+                    $jobPosition->setCareer($career);
+                }
+            }
+            return $jobPosition;
         }
 
         private function RetrieveDataJobPosition() //carga en memoria todos los job position
@@ -252,9 +287,10 @@ class JobOfferDAO implements IJobOfferDAO
             $list_jobOffer = $this->GetAll();
             $list_careers = $this->RetrieveDataCareers();
             $list_filter = array();
+            $cadena_texto = "";
             foreach($list_jobOffer as $content)
                  {
-                    $careerId = $content->getCareerId();
+                    $careerId = $content->getJobPosition()->getCareer()->getCarreerId();
                     foreach($list_careers as $career)
                     {
                         if($career['careerId']==$careerId)
@@ -280,7 +316,7 @@ class JobOfferDAO implements IJobOfferDAO
             $list_filter = array();
             foreach($list_jobOffer as $content)
                  {
-                    $jobPositionId = $content->getJobPositionId();
+                    $jobPositionId = $content->getJobPosition()->getJobPositionId();
                     foreach($list_jobPosition as $jobPosition)
                     {
                         if($jobPosition['jobPositionId']==$jobPositionId)
@@ -307,9 +343,9 @@ class JobOfferDAO implements IJobOfferDAO
             $studentList = array();
             foreach ($applicationList as $application)
             {
-                if($application->getJobOfferId()==$id)
+                if($application->getJobOffer()->getJobOfferId()==$id)
                 {
-                    $student=$StudentDAO->GetById($application->getStudentId());
+                    $student=$application->getStudent();
                     array_push($studentList,$student);
                 }
             }
