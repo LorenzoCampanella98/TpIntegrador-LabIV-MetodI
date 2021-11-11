@@ -1,5 +1,8 @@
 <?php
-    include('header.php');
+
+use Models\Application;
+
+include('header.php');
     include('nav-bar.php');
     require_once('validate-session.php');
 ?>
@@ -8,6 +11,7 @@
   <main class="hoc container clear"> 
     <div class="content"> 
       <div class="scrollable">
+      <?php if($applicationList!=null) { ?>
       <form action="<?php echo FRONT_ROOT?> Application/BajaAplication" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
           <table> 
             <thead>
@@ -34,7 +38,7 @@
               <th style="width: 15%;">Application ID</th>
               <th style="width: 15%;">Date</th>
               <th style="width: 30%;">Description</th>
-              <th style="width: 30%;">JobOfferId</th>
+              <th style="width: 30%;">JobOffer Description</th>
               <th style="width: 15%;">Status</th>
             </tr>
           </thead>
@@ -47,10 +51,10 @@
                       <td><?php echo $application->getApplicationId() ?></td>
                       <td><?php echo $application->getApplicationDate() ?></td>
                       <td><?php echo $application->getDescription() ?></td>
-                      <td><?php echo $application->getJobOfferId() ?></td>
+                      <td><?php echo $application->getJobOffer()->getDescription() ?></td>
                       <td><?php echo $application->getActive() ?></td>
                       <td>
-                      <button type="submit" name="id" class="btn" value="<?php echo $application->getJobOfferId() ?>"> VER </button> <!-- USO LA BUSQUEDA POR NAME PERO DE LA SELECCIONADA-->
+                      <button type="submit" name="id" class="btn" value="<?php echo $application->getjobOffer()->getJobOfferId() ?>"> VER </button> <!-- USO LA BUSQUEDA POR NAME PERO DE LA SELECCIONADA-->
                       </td>
                     </tr>
                   <?php
@@ -59,6 +63,13 @@
           </tbody>
         </table>
       </form>
+      <?php } else { ?>
+        <div>
+          <tr>
+          <th style="width: 75%;"><?php echo "AUN NO HAS APLICADO A NINGUNA JOB OFFER"  ?></th>
+          </tr>
+        </div>
+      <?php } ?>
       </div>
       <?php if ($jobOffer!=null) { ?>
         
@@ -85,9 +96,9 @@
                     <td><?php echo $jobOffer->getDescription() ?></td>
                     <td><?php echo $jobOffer->getSkills() ?></td>
                     <td><?php echo $jobOffer->getTasks() ?></td>
-                    <td><?php echo $jobPosition["description"] ?></td>
-                    <td><?php echo $company->getName() ?></td>
-                    <td><?php echo $career["description"] ?></td>
+                    <td><?php echo $jobOffer->getJobPosition()->getDescription() ?></td>
+                    <td><?php echo $jobOffer->getCompany()->getName() ?></td>
+                    <td><?php echo $jobOffer->getJobPosition()->getCareer()->getDescription() ?></td>
                     <td><?php echo $jobOffer->getActive() ?></td>
             </tr>
           </tbody>

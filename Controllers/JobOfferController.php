@@ -41,14 +41,10 @@ class JobOfferController
 
         public function ShowSearchView()
         {
-            $careerList = $this->jobOfferDAO->RetrieveDataCareers();
-            $companyList = $this->companyDAO->GetAll();
+           
             $jobOfferList = $this->jobOfferDAO->GetAll();
             $jobPositionList = $this->jobOfferDAO->FilterJobPositionWithActiveCareers(); // menu del filtro
             $jobOffer = new JobOffer();
-            $jobPosition = null; //porque la muestra es completa y muestra estos datos tambien
-            $career = null; //porque la muestra es completa y muestra estos datos tambien
-            $company = new Company();
             require_once(VIEWS_PATH."search-jobOffer.php");
         }
 
@@ -70,8 +66,9 @@ class JobOfferController
                 $jobOffer->setDescription($description);
                 $jobOffer->setSkills($skills);
                 $jobOffer->setTasks($tasks);
-                $jobOffer->setJobPositionId($jobPositionId);
-                $jobOffer->setCompanyId($companyId);
+                $jobPosition = $this->jobOfferDAO->GetJobPositionById($jobPositionId); //retorno el Job Position qu dentro tiene la career
+                $jobOffer->setJobPosition($jobPosition); //meto en el job Offer el JobPosition que dentro tiene una career
+                $jobOffer->setCompany($this->companyDAO->GetById($companyId)); //retonrna una company
                 $jobOffer->setActive(1); //no me toma true
                 $this->jobOfferDAO->Add($jobOffer);
                $this->ShowAddView();
@@ -100,42 +97,31 @@ class JobOfferController
         public function Search($id)
         {
             $jobOfferList = $this->jobOfferDAO->GetAll();
-            $careerList = $this->jobOfferDAO->RetrieveDataCareers();
-            $companyList = $this->companyDAO->GetAll();
-            $jobPositionList = $this->jobOfferDAO->FilterJobPositionWithActiveCareers(); // menu del filtro
+           
             $jobOffer = new JobOffer();
             $jobOffer = $this->jobOfferDAO->SearchJobOffer($id);
-            $jobPosition = $this->jobOfferDAO->SearchJobPosition($jobOffer->getJobPositionId());
-            $career = $this->jobOfferDAO->SearchCareer($jobOffer->getCareerId());
-            $company = $this->companyDAO->Search($jobOffer->getCompanyId());
+           
             require_once(VIEWS_PATH."search-jobOffer.php"); 
         }
 
         public function FilterByCareer($text)
         {
-            var_dump($text);
-            $careerList = $this->jobOfferDAO->RetrieveDataCareers(); //menu del filtro
+           
             $jobOfferList = $this->jobOfferDAO->ListFilterByCareer($text); 
-            $jobPositionList = $this->jobOfferDAO->FilterJobPositionWithActiveCareers(); // menu del filtro
-            $companyList = $this->companyDAO->GetAll(); //cuando selecciono muestro la comany
+            
             $jobOffer = new JobOffer();
-            $jobPosition = null; //porque la muestra es completa y muestra estos datos tambien
-            $career = null; //porque la muestra es completa y muestra estos datos tambien
-            $company = new Company();
-           require_once(VIEWS_PATH."search-jobOffer.php");
+            
+            require_once(VIEWS_PATH."search-jobOffer.php");
         }
 
         public function FilterByJobPosition($text)
         {
             
-            $careerList = $this->jobOfferDAO->RetrieveDataCareers();
+           
             $jobOffer = new JobOffer();
-            $jobPosition = null; //porque la muestra es completa y muestra estos datos tambien
-            $career = null; //porque la muestra es completa y muestra estos datos tambien
-            $company = new Company();
+            
             $jobOfferList = $this->jobOfferDAO->ListFilterbyJobPosition($text);
-            $jobPositionList = $this->jobOfferDAO->FilterJobPositionWithActiveCareers();
-            $companyList = $this->companyDAO->GetAll();
+           
             require_once(VIEWS_PATH."search-jobOffer.php");
         }
 
@@ -146,17 +132,13 @@ class JobOfferController
             $applicationList = $applicationDAO->GetStudentApplications($_SESSION["loggedUser"]->getStudentId()); //porque lo necesita list-application
 
             $jobOfferList = $this->jobOfferDAO->GetAll();
-            $careerList = $this->jobOfferDAO->RetrieveDataCareers();
-            $companyList = $this->companyDAO->GetAll();
-            $jobPositionList = $this->jobOfferDAO->FilterJobPositionWithActiveCareers(); // menu del filtro
+           
             $jobOffer = new JobOffer();
             $jobOffer = $this->jobOfferDAO->SearchJobOffer($id);
-            $jobPosition = $this->jobOfferDAO->SearchJobPosition($jobOffer->getJobPositionId());
-            $career = $this->jobOfferDAO->SearchCareer($jobOffer->getCareerId());
-            $company = $this->companyDAO->Search($jobOffer->getCompanyId());
+            
             if($jobOffer->getJobOfferId()==null) //por si se elimino la job offer y alguien ya habia aplicado
             {
-                $message = "La job Offer Aplicada no se encuentra disponible";
+                $message = "La job Offer Aplicada ya no se encuentra disponible";
                 $jobOffer=null;
             }
             require_once(VIEWS_PATH."list-application.php"); 
@@ -165,7 +147,7 @@ class JobOfferController
         public function ListStudentsByJobOffer($id) //PARA LISTAR ALUMNOS DE UNA JOB OFFER
         {
             $jobOfferList = $this->jobOfferDAO->GetAll();
-            $studentList=$this->jobOfferDAO->ListStudentsFilterByJoboffer($id);
+            $studentList=$this->jobOfferDAO->ListStudentsFilterByJoboffer($id); // PORQUE TARDA TANTO ESTA FUNCION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             require_once(VIEWS_PATH."list-studentsByJobOffer.php"); 
         }
 

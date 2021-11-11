@@ -4,8 +4,8 @@ class Application
 {
     private $applicationId;
     private $applicationDate;
-    private $studentId;
-    private $jobOfferId;
+    private $student;
+    private $jobOffer;
     private $description;
     private $active;
 
@@ -17,11 +17,11 @@ class Application
     public function getApplicationDate(){ return $this->applicationDate; }
     public function setApplicationDate($applicationDate): self { $this->applicationDate = $applicationDate; return $this; }
 
-    public function getStudentId(){ return $this->studentId; }
-    public function setStudentId($studentId): self { $this->studentId = $studentId; return $this; }
+    public function getStudent(){ return $this->student; }
+    public function setStudent($student): self { $this->student = $student; return $this; }
 
-    public function getJobOfferId(){ return $this->jobOfferId; }
-    public function setJobOfferId($jobOfferId): self { $this->jobOfferId = $jobOfferId; return $this; }
+    public function getJobOffer(){ return $this->jobOffer; }
+    public function setJobOffer($jobOffer): self { $this->jobOffer = $jobOffer; return $this; }
 
     public function getDescription(){ return $this->description; }
     public function setDescription($description): self { $this->description = $description; return $this; }

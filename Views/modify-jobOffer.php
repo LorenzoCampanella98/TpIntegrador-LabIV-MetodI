@@ -58,8 +58,9 @@
               <th style="width: 30%;">Description</th>
               <th style="width: 15%;">Skills</th>
               <th style="width: 15%;">Tasks</th>
-              <th style="width: 15%;">JobPositionId</th>
-              <th style="width: 15%;">CompanyId</th>
+              <th style="width: 15%;">JobPosition</th>
+              <th style="width: 15%;">Company</th>
+              <th style="width: 15%;">Career</th>
               <th style="width: 15%;">Active</th>
             </tr>
           </thead>
@@ -75,8 +76,9 @@
                     <td><?php echo $jobOffer->getDescription() ?></td>
                     <td><?php echo $jobOffer->getSkills() ?></td>
                     <td><?php echo $jobOffer->getTasks() ?></td>
-                    <td><?php echo $jobOffer->getJobPositionId() ?></td>
-                    <td><?php echo $jobOffer->getCompanyId() ?></td>
+                    <td><?php echo $jobOffer->getJobPosition()->getDescription() ?></td>
+                    <td><?php echo $jobOffer->getCompany()->getName() ?></td>
+                    <td><?php echo $jobOffer->getJobPosition()->getCareer()->getDescription() ?></td>
                     <td><?php echo $jobOffer->getActive() ?></td>
                   </tr>
                 <?php
