@@ -39,6 +39,7 @@ include('header.php');
               <th style="width: 15%;">Date</th>
               <th style="width: 30%;">Description</th>
               <th style="width: 30%;">JobOffer Description</th>
+              <th style="width: 30%;">CV</th>
               <th style="width: 15%;">Status</th>
             </tr>
           </thead>
@@ -52,6 +53,7 @@ include('header.php');
                       <td><?php echo $application->getApplicationDate() ?></td>
                       <td><?php echo $application->getDescription() ?></td>
                       <td><?php echo $application->getJobOffer()->getDescription() ?></td>
+                      <td><?php echo $application->getCv() ?></td>
                       <td><?php echo $application->getActive() ?></td>
                       <td>
                       <button type="submit" name="id" class="btn" value="<?php echo $application->getjobOffer()->getJobOfferId() ?>"> VER </button> <!-- USO LA BUSQUEDA POR NAME PERO DE LA SELECCIONADA-->

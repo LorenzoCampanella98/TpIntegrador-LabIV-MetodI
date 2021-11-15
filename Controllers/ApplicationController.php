@@ -8,6 +8,8 @@
 
     use DAO\JobOfferDAO as JobOfferDAO;
     use Models\JobOffer as JobOffer;
+    use \Exception as Exception;
+    use Models\CV as CV;
 
 class ApplicationController
     {
@@ -28,8 +30,11 @@ class ApplicationController
             require_once(VIEWS_PATH."list-application.php");
         }
 
-        public function Add($studentId,$jobOfferId,$description)
-        {
+        public function Add($studentId,$jobOfferId,$description,$file)
+        {   
+            //$this->SubirCv($file); //----------------------------------------------------PORQUE NO ANDAAAAAAAA????????????
+            var_dump($file);
+        
             $actualDate = date('d-m-Y', time());
             $application = new Application();
             $application->setApplicationDate($actualDate);
@@ -42,14 +47,52 @@ class ApplicationController
             
             $application->setStudent($student); 
             $application->setJobOffer($jobOffer);
+            $application->setCv($file);
 
-    
+        
             $this->applicationDAO->Add($application);
             $this->studentDAO->ChangePostulated($studentId); //cambia a postulado
             $_SESSION["loggedUser"]->setPostulated(1); //porque si bien se actualiza la BD no se actualiza el session  porque cando entra aun no estaba postulad                                         
             $jobOffer=null; //lo necesito en la muestra
             $applicationList = $this->applicationDAO->GetStudentApplications($_SESSION["loggedUser"]->getStudentId());
-            require_once(VIEWS_PATH."list-application.php");;
+            //require_once(VIEWS_PATH."list-application.php");;
+        }
+
+        public function SubirCv($file)
+        {
+
+            try
+            {
+                $neededExtension = "pdf";
+                $fileName = $file["name"];
+                $tempFileName = $file["tmp_name"];
+                $type = $file["type"];
+                                   
+                $filePath = UPLOADS_PATH.basename($fileName);            
+                $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+
+                if ($fileType == $neededExtension){  
+                    if (move_uploaded_file($tempFileName, $filePath))
+                    {
+                        $cv = new CV();
+                        $cv->setName($fileName);
+                        $this->applicationDAO->addCV($cv);
+                        $message = "CV subido";
+                    }
+                    else
+                        $message = "Error en  CV!";
+                }else{
+                    ?>
+                    
+                <?php
+                }
+                (new HomeController)->Index();        
+            }
+            catch(Exception $ex)
+            {
+              //  $message = $ex->getMessage();
+            }
+            require_once(VIEWS_PATH."home.php");;
         }
 
         public function BajaAplication($id)

@@ -13,7 +13,7 @@ include('header.php');
     <div class="content" > 
       <div id="comments" style="align-items:center;">
         <h2>Search JobOffer</h2>
-        <form action="<?php echo FRONT_ROOT?> JobOffer/FilterByCareer" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
+        <form action="<?php echo FRONT_ROOT?> JobOffer/FilterByCareer" method="post" enctype="multipart/form-data" style="background-color: #EAEDED;padding: 2rem !important;">
           <table> 
             <thead>
               <tr>
@@ -94,7 +94,7 @@ include('header.php');
             </table>
             <table>
               <tr>
-                <th>Description</th>
+              <th>Description</th>
               </tr>
             </thead>
             <tbody align="center">
@@ -102,6 +102,7 @@ include('header.php');
                 <td style="max-width: 500px;">    
                   <input type="text" name="description" size="22" maxlength="29" min="0" required>
                 </td>
+                <td><input type="file" name="file" id="file" class="form-control-file" required></td>
                
                    <input type="number" name="studentId" size="22" min="0" value="<?php echo $_SESSION["loggedUser"]->getStudentId() ?>"  style="visibility:hidden">
                    <input type="number" name="jobOfferId" size="22" min="0" value="<?php  echo $jobOffer->getJobOfferId() ?>"  style="visibility:hidden">
@@ -114,6 +115,25 @@ include('header.php');
             </tbody>
             </table></table>
           <?php } ?>
+          
+          </form>
+
+                    <form action="<?php echo FRONT_ROOT ?>Application/SubirCv" method="POST" enctype="multipart/form-data">
+              <table style="width: 80vh;">
+                <tr>
+                  <th colspan="2"><center><h4>Applying Appointment</h4></center></th>
+                </tr>
+                <tr>
+                  <td><label for="cv">Curriculum Vitae * (PDF)</label></td>
+                  <td><input type="file" name="file" id="file" class="form-control-file" required></td>
+                </tr>
+
+                
+                <tr>
+                  <td colspan="2"><center><button type="submit" class="btn btn-success">Upload</button><center></td>
+                </tr> 
+              </table>
+            </form>
           
           </form>
           <form action="<?php echo FRONT_ROOT?>JobOffer/Search" method="">
