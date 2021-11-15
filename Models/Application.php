@@ -7,6 +7,7 @@ class Application
     private $student;
     private $jobOffer;
     private $description;
+    private $cv;
     private $active;
 
     
@@ -28,6 +29,9 @@ class Application
 
     public function getActive(){ return $this->active; }
     public function setActive($active): self { $this->active = $active; return $this; }
+
+    public function getCv(){ return $this->cv; }
+    public function setCv($cv): self { $this->cv = $cv; return $this; }
 }
 
 ?>

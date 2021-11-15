@@ -7,6 +7,7 @@
 
     use DAO\StudentDAO as StudentDAO;
     use DAO\JobOfferDAO as JobOfferDAO;
+    use \Exception as Exception;
 
     /*use Models\Student as Student;
     use Models\JobOffer as JobOffer;*/
@@ -17,22 +18,15 @@ class ApplicationDAO implements IApplicationDAO
     
         public function Add(Application $application)
         {
-            /*$student = new Student();
-            $jobOffer = new JobOffer();
-            $student=$application->getStudent();
-            $jobOffer=$application->getJobOffer();
-            var_dump($application);
-            var_dump($application->getStudent());
-            var_dump($application->getApplicationDate());
-            var_dump($jobOffer);*/
-            
-            $query = "CALL Applications_Add(?,?,?,?,?)";
+                        
+            $query = "CALL Applications_Add(?,?,?,?,?,?)";
 
             
             $parameters["applicationDate"]= $application->getApplicationDate();
             $parameters["studentId"] = $application->getStudent()->getStudentId();
             $parameters["jobOfferId"] = $application->getJobOffer()->getJobOfferId();
-            $parameters["description"] = $application->getDescription();
+            $parameters["cv"] = $application->getCv();
+            $parameters["description"] = $application->getDescription();   
             $parameters["active"] = $application->getActive();
             
             $this->connection = Connection::GetInstance();
@@ -55,11 +49,29 @@ class ApplicationDAO implements IApplicationDAO
                 $application->setApplicationDate($row["applicationDate"]);
                 $application->setStudent($studentDAO->GetById($row["studentId"])); //devuelve un student
                 $application->setJobOffer($jobOfferDAO->SearchJobOffer($row["jobOfferId"])); //devuelve el Job Offer
+                $application->setCv($row["cv"]);
                 $application->setDescription($row["description"]);
                 $application->setActive($row["active"]);
                 array_push($applicationList, $application);
             }
             return $applicationList;
+        }
+
+        public function addCV($cv){
+            try
+            {
+                $query = "CALL cv_add(?,?);";
+                
+                $parameters["name"] = $cv->getName();
+                $parameters["studentId"]=$_SESSION["loggedUser"]->getStudentId();
+
+                $this->connection = Connection::GetInstance();
+
+                $this->connection->ExecuteNonQuery($query, $parameters, QueryType::StoredProcedure);
+            }
+            catch(Exception $ex){
+                throw $ex;
+            }
         }
 
         public function Remove($id)
@@ -90,7 +102,7 @@ class ApplicationDAO implements IApplicationDAO
                     $application->setApplicationDate($row["applicationDate"]);
                     $application->setStudent($studentDAO->GetById($row["studentId"])); //devuelve un student
                     $application->setJobOffer($jobOfferDAO->SearchJobOffer($row["jobOfferId"])); //devuelve el Job Offe
-                    
+                    $application->setCv($row["cv"]);
                     $application->setDescription($row["description"]);
                     $application->setActive($row["active"]);
                     array_push($applicationList, $application);

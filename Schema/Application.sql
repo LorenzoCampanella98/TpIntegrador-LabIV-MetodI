@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS applications
     applicationDate  VARCHAR(30) NOT NULL,
     studentId INT NOT NULL,
     jobOfferId INT NOT NULL,
+    cv VARCHAR (30),
     description VARCHAR(30) NOT NULL,
     active bit NOT NULL /* no toma true o false*/
 )Engine=InnoDB;
@@ -18,14 +19,14 @@ DROP procedure IF EXISTS `Applications_Add`;
 
 DELIMITER $$
 
-CREATE PROCEDURE Applications_Add (IN applicationDate VARCHAR(30), IN studentId CHAR (4),IN jobOfferId CHAR (4), 
+CREATE PROCEDURE Applications_Add (IN applicationDate VARCHAR(30), IN studentId CHAR (4),IN jobOfferId CHAR (4), IN cv VARCHAR(30)
 IN description VARCHAR(30),IN active boolean)
 BEGIN
 	INSERT INTO applications
-        (applications.applicationDate,applications.studentId,applications.jobOfferId,applications.description,
+        (applications.applicationDate,applications.studentId,applications.jobOfferId,applications.cv,applications.description,
         applications.active)
     VALUES
-        (applicationDate,studentId,jobOfferId,description,active);
+        (applicationDate,studentId,jobOfferId,cv,description,active);
 END$$
 
 DELIMITER ;
@@ -36,7 +37,7 @@ DELIMITER $$
 
 CREATE PROCEDURE Applications_GetAll ()
 BEGIN
-	SELECT applicationId,applicationDate,studentId,jobOfferId,description,active
+	SELECT applicationId,applicationDate,studentId,jobOfferId,cv,description,active
     FROM applications;
 END$$
 

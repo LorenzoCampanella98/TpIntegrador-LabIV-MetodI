@@ -65,7 +65,6 @@
               <th style="width: 15%;">Email</th>
               <th style="width: 15%;">Password</th>
               <th style="width: 10%;">postulated</th>
-              <th style="width: 10%;">Type Student</th>
             </tr>
           </thead>
           <tbody>
@@ -77,7 +76,6 @@
               <td><?php echo $student_actual->getEmail() ?></td>
               <td><?php echo $student_actual->getPassword() ?></td>
               <td><?php echo $student_actual->getPostulated() ?></td>
-              <td><?php echo $student_actual->getTypeStudentId() ?></td>
               </tr>
           </tbody>
         </table>
