@@ -26,9 +26,14 @@
                 <td style="max-width: 120px;">    
                   <input type="number" name="cuit" size="22" min="0" required>
                 </td>
+                <?php if($_SESSION["loggedUser"]->getTypeStudentId()==3) { ?>
                 <td style="max-width: 120px;">    
-                  <input type="text" name="name" size="22" min="0" maxlength="29" required>
+                  <input type="text" name="name" value="<?php echo $_SESSION["loggedUser"]->getName();?>" placeholder="<?php echo $_SESSION["loggedUser"]->getName();?>" size="22" min="0" maxlength="29" disabled>
+                  <input type="text" name="name" value="<?php echo $_SESSION["loggedUser"]->getName();?>" size="22" min="0" maxlength="29" style="visibility:hidden">
                 </td>
+                <?php } else { ?>
+                    <input type="text" name="name" size="22" min="0" maxlength="29" required>
+                <?php } ?>
                 <td style="max-width: 120px;">    
                   <input type="text" name="company_link" size="22" min="0" maxlength="29" required>
                 </td>

@@ -39,6 +39,10 @@ class JobOfferController
            require_once(VIEWS_PATH."modify-jobOffer.php");
         }
 
+        public function ShowModifyUserCompany()
+        {
+            require_once(VIEWS_PATH."modify-jobOffer-userCompany.php");
+        }
         public function ShowSearchView()
         {
            
@@ -56,9 +60,15 @@ class JobOfferController
             require_once(VIEWS_PATH."list-studentsByJobOffer.php");  
         }
 
+        public function ShowStudentListByJobOfferUserCompany()
+        {
+            $studentList=$this->jobOfferDAO->ListStudentsFilterByJoboffer($_SESSION["jobOfferUser"]->getJobOfferId());
+            require_once(VIEWS_PATH."list-applicants-userCompany.php");
+        }
+
         public function Add($description,$skills,$tasks,$jobPositionId,$companyId)
         {
-                $actualDate = date('d-m-Y', time());
+            $actualDate = date('d-m-Y', time());
                 $expiryDate = date("d-m-Y",strtotime($actualDate."+ 1 month"));
                 $jobOffer = new JobOffer();
                 $jobOffer->setPublicationDate($actualDate);
@@ -71,7 +81,12 @@ class JobOfferController
                 $jobOffer->setCompany($this->companyDAO->GetById($companyId)); //retonrna una company
                 $jobOffer->setActive(1); //no me toma true
                 $this->jobOfferDAO->Add($jobOffer);
-               $this->ShowAddView();
+                if ($_SESSION["loggedUser"]->getTypeStudentId()==3) {
+                    $_SESSION["jobOfferUser"]= $this->jobOfferDAO->GetByCreatorUserAndName($_SESSION["loggedUser"]->getStudentId(),$companyId);
+                    require_once(VIEWS_PATH."home.php");
+                } else {
+                     $this->ShowAddView();
+                }
         }
 
         public function ChangeStatus($id)
@@ -85,6 +100,16 @@ class JobOfferController
             $jobOfferList = $this->jobOfferDAO->GetAll();
             $this->jobOfferDAO->Modify($id,$description,$skills,$tasks,$active);
             $this->ShowModifyView();
+        }
+
+        public function ModifyUserCompany($description,$skills,$tasks)
+        {
+            $jobOffer = $_SESSION["jobOfferUser"];
+            $id = $jobOffer->getJobOfferId();
+            $active = $jobOffer->getActive();
+            $this->jobOfferDAO->Modify($id,$description,$skills,$tasks,$active);
+            $_SESSION["jobOfferUser"] = $this->jobOfferDAO->SearchJobOffer($id);
+            require_once(VIEWS_PATH."home.php");
         }
 
         public function Remove($id)

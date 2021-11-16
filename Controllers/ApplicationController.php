@@ -104,7 +104,7 @@ class ApplicationController
                 $_SESSION["loggedUser"]->setPostulated(0); //porque si bien se actualiza la BD no se actualiza el session
                                                         //porque cando entra aun no estaba postulad
             }
-            $applicationList = $this->applicationDAO->GetStudentApplications($_SESSION["loggedUser"]->getStudentId());
+            $applicationList = $this->applicationDAO->GetStudentApplications($_SESSION["loggedUser"]->getStudentId()); //PORQUE TARDA TANTO LA FUNCION
             $jobOffer=null; //lo necesito en la muestra
             require_once(VIEWS_PATH."list-application.php");;
             }

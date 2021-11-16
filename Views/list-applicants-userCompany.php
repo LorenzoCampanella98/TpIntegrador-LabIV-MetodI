@@ -27,10 +27,7 @@
             </tr>
           </thead>
           <tbody>
-          <?php
-              foreach($jobOfferList as $jobOffer)
-              {
-                ?>
+          <?php $jobOffer=$_SESSION["jobOfferUser"] ?>
                   <tr>
                     <td><?php echo $jobOffer->getJobOfferId() ?></td>
                     <td><?php echo $jobOffer->getPublicationDate() ?></td>
@@ -42,13 +39,8 @@
                     <td><?php echo $jobOffer->getCompany()->getDescription() ?></td>
                     <td><?php echo $jobOffer->getJobPosition()->getCareer()->getDescription() ?></td>
                     <td><?php echo $jobOffer->getActive() ?></td>
-                    <td>
-                      <button type="submit" name="id" class="btn" value="<?php echo $jobOffer->getJobOfferId() ?>"> Ver Aplicaciones </button>
-                    </td>
                   </tr>
-                <?php
-              }
-            ?> 
+        
           </tbody>
         </table></form>
         <?php if($studentList != null) { ?> 

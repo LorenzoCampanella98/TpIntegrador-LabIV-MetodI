@@ -8,8 +8,9 @@ CREATE TABLE IF NOT EXISTS typeStudent
     type  VARCHAR(30) NOT NULL
 )Engine=InnoDB;
 
-INSERT INTO studentRegistered 
+INSERT INTO typestudent
     (type)
 VALUES
     ('student'),
-    ('admin');
+    ('admin'),
+    ('company');

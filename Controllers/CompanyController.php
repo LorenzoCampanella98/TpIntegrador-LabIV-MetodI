@@ -31,6 +31,11 @@
            require_once(VIEWS_PATH."modify-company.php");
         }
 
+        public function ShowModifyUserCompany()
+        {
+            require_once(VIEWS_PATH."modify-company-userCompany.php");
+        }
+
         public function ShowSearchView()
         {
            $companyList = $this->companyDAO->GetAll(); 
@@ -51,7 +56,12 @@
                     $company->setDescription($description);
                     $company->setActive(1); //no me toma el true 
                     $this->companyDAO->Add($company);
-                    $this->ShowAddView();
+                    if ($_SESSION["loggedUser"]->getTypeStudentId()==3) {
+                        $_SESSION["companyUser"]= $this->companyDAO->GetByCreatorUserAndName($_SESSION["loggedUser"]->getStudentId(),$name); //actualizo para views
+                        require_once(VIEWS_PATH."home.php");
+                    } else {
+                        $this->ShowAddView();
+                    }
                 } else {
                     $message = "Error name repetido";
                     require_once(VIEWS_PATH."add-company.php");
@@ -67,6 +77,17 @@
             $companyList = $this->companyDAO->GetAll(); //porque el Modify view muestra todas las companias tambien
             $this->companyDAO->Modify($id,$name,$company_link,$aboutUs,$description,$active);
             $this->ShowModifyView();
+        }
+
+        public function ModifyUserCompany($company_link,$aboutUs,$description)
+        {
+            $company =  $_SESSION["companyUser"];
+            $id = $company->getCompanyId();
+            $name = $company->getName();
+            $active = $company->getActive();
+            $this->companyDAO->Modify($id,$name,$company_link,$aboutUs,$description,$active);
+            $_SESSION["companyUser"] =  $this->companyDAO->Search($id);
+            require_once(VIEWS_PATH."home.php");
         }
 
         public function Search($id)
