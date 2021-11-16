@@ -5,6 +5,7 @@ USE tpfinal;
 CREATE TABLE IF NOT EXISTS companies
 (
     companyId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    creator_user int NOT NULL,
     name NVARCHAR(30) NOT NULL,
     cuit NVARCHAR(30) NOT NULL,
     company_link NVARCHAR(30) NOT NULL,
@@ -31,12 +32,12 @@ DROP procedure IF EXISTS `Companies_Add`;
 
 DELIMITER $$
 
-CREATE PROCEDURE Companies_Add (IN name VARCHAR(30), IN cuit VARCHAR(30),IN company_link VARCHAR(30),IN aboutUs VARCHAR (30),IN description VARCHAR (30),IN active boolean)
+CREATE PROCEDURE Companies_Add (IN creator_user varchar(4),IN name VARCHAR(30), IN cuit VARCHAR(30),IN company_link VARCHAR(30),IN aboutUs VARCHAR (30),IN description VARCHAR (30),IN active boolean)
 BEGIN
 	INSERT INTO companies
-        (companies.name,companies.cuit,companies.company_link,companies.aboutUs,companies.description,companies.active)
+        (companies.creator_user,companies.name,companies.cuit,companies.company_link,companies.aboutUs,companies.description,companies.active)
     VALUES
-        (name,cuit,company_link,aboutUs,description,active);
+        (creator_user,name,cuit,company_link,aboutUs,description,active);
 END$$
 
 DELIMITER ;
@@ -47,7 +48,7 @@ DELIMITER $$
 
 CREATE PROCEDURE Companies_GetAll ()
 BEGIN
-	SELECT companyId,name,cuit,company_link,aboutUs,description,active
+	SELECT companyId,creator_user,name,cuit,company_link,aboutUs,description,active
     FROM companies;
 END$$
 
@@ -86,6 +87,19 @@ CREATE PROCEDURE Companies_Modify (IN companyId CHAR(4),IN name VARCHAR(30),IN c
 BEGIN
 	UPDATE companies set active = newSatus,name = name,company_link = company_link,aboutUs = aboutUs,description = description
     WHERE (companies.companyId = companyId);
+END$$
+
+DELIMITER ;
+
+DROP procedure IF EXISTS `Company_GetByName_and_CreatorUser`;
+
+DELIMITER $$
+
+CREATE PROCEDURE Company_GetByName_and_CreatorUser (IN creator_user int,IN name VARCHAR (30)) /*chekear*/
+BEGIN
+	SELECT CompanyId,creator_user,name,cuit,company_link,aboutUs,description,active
+    FROM companies
+    WHERE (companies.creator_user = creator_user and companies.name = name);
 END$$
 
 DELIMITER ;

@@ -181,6 +181,21 @@
             return $message;
         }
 
+        public function registerUserCompany($email,$password,$name)
+        {
+            $user = new Student();
+            $user->setEmail($email);
+            $user->setPassword($password);
+            $user->setTypeStudentId(3);
+            $user->setFileNumber("0");
+            $user->setName($name);
+            $user->setSurname("0");
+            $user->setPostulated(0);
+            $this->Add($user);
+            $message = "REGISTADO: ".$email." ---  como USER COMPANY -- INTENTA LOGUEARTE ----";
+            return $message;
+        }
+
         public function addAdmin($name,$fileNumber,$surname,$password,$email)
         {
             $student = new Student();

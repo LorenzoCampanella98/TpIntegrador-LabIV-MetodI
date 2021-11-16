@@ -33,6 +33,7 @@
       </ul>
     </nav>
     <?php } ?>
+    <?php if($_SESSION["loggedUser"]->getTypeStudentId()==1 ||$_SESSION["loggedUser"]->getTypeStudentId()==2 ) { ?>
     <nav id="mainav" class="fl_right">
       <ul class="clear">
           <li class="active"><a class="drop" href="#">Company</a>
@@ -64,6 +65,7 @@
           </li>
       </ul>
     </nav>
+    <?php } ?>
     <?php if($_SESSION["loggedUser"]->getTypeStudentId()==1) { ?>
     <nav id="mainav" class="fl_right">
       <ul class="clear">
@@ -78,6 +80,27 @@
       <li><a href="<?php echo  FRONT_ROOT."Home/Index "?>">HOME</a></li>
       </ul>
     </nav>
+    <!-- PARA USER COMPANY -->
+    <?php if($_SESSION["loggedUser"]->getTypeStudentId()==3) { ?>
+    <nav id="mainav" class="fl_right">
+      <ul class="clear">
+          <li class="active"><a class="drop" href="#">Functions</a>
+            <ul>
+              <!--PARA USER COMPANY-->
+              <?php if(!isset($_SESSION["companyUser"])){ // PRUEBA DE FUNCIONES SOLO PARA ADMIN EN EL NAVBAR?>
+                <li><a href="<?php echo  FRONT_ROOT."Company/ShowAddView "?>">ADD-MyCompany</a></li>
+              <?php } else if(!isset($_SESSION["jobOfferUser"])) {  ?>
+                <li><a href="<?php echo  FRONT_ROOT."JobOffer/ShowAddView "?>">ADD-MyJobOffer</a></li>
+                <?php } else {?>
+                  <li><a href="<?php echo  FRONT_ROOT."Company/ShowModifyUserCompany "?>">MODIFY - MyCompany</a></li>
+                  <li><a href="<?php echo  FRONT_ROOT."JobOffer/ShowModifyUserCompany "?>">MODIFY- My Job Offer</a></li>
+                  <li><a href="<?php echo  FRONT_ROOT."JobOffer/ShowStudentListByJobOfferUserCompany "?>">InfoMyJobOffer</a></li>
+                  <?php }?>
+            </ul>
+          </li>
+      </ul>
+    </nav>
+    <?php } ?>
     
   </header>
 </div>

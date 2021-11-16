@@ -22,7 +22,8 @@ class JobOfferDAO implements IJobOfferDAO
 
         public function Add(JobOffer $jobOffer)
         {
-            $query = "CALL JobOffers_Add(?,?,?,?,?,?,?,?,?)";
+            $query = "CALL JobOffers_Add(?,?,?,?,?,?,?,?,?,?)";
+            $parameters["creator_user"] = $_SESSION["loggedUser"]->getStudentId();
             $parameters["publicationDate"]= $jobOffer->getPublicationDate();
             $parameters["expiryDate"] = $jobOffer->getExpiryDate();
             $parameters["description"] = $jobOffer->getDescription();
@@ -345,11 +346,38 @@ class JobOfferDAO implements IJobOfferDAO
             {
                 if($application->getJobOffer()->getJobOfferId()==$id)
                 {
-                    $student=$application->getStudent();
-                    array_push($studentList,$student);
+                    //$student=$application->getStudent();
+                    //array_push($studentList,$student);
+                    array_push($studentList,$application->getStudent());
                 }
             }
             return $studentList;
+        }
+
+        public function GetByCreatorUserAndName($creatorUserId,$companyId)
+        {
+            $companyADO = new CompanyDAO;
+            $query = "Call JobOffers_GetAll()";
+            $this->connection = Connection::GetInstance();
+            $result = $this->connection->Execute($query,array(),QueryType::StoredProcedure); //tengo tods los datos de la BD
+            $jobOffer = null;
+            foreach($result as $row)
+            {
+                if($row["creator_user"]==$creatorUserId && $row["companyId"]==$companyId)
+                {
+                    $jobOffer = new JobOffer();
+                    $jobOffer->setJobOfferId($row["jobOfferId"]);
+                    $jobOffer->setPublicationDate($row["publicationDate"]);
+                    $jobOffer->setExpiryDate($row["expiryDate"]);
+                    $jobOffer->setDescription($row["description"]);
+                    $jobOffer->setSkills($row["skills"]);
+                    $jobOffer->setTasks($row["tasks"]);
+                    $jobOffer->setJobPosition($this->GetJobPositionById($row["jobPositionId"]));
+                    $jobOffer->setCompany($companyADO->GetById($row["companyId"])); //devuelve un Comany
+                    $jobOffer->setActive($row["active"]);
+                } 
+            }
+            return $jobOffer;  
         }
     }
 ?>

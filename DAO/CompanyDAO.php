@@ -11,7 +11,8 @@
 
         public function Add(Company $company)
         {
-            $query = "CALL Companies_Add(?,?,?,?,?,?)";
+            $query = "CALL Companies_Add(?,?,?,?,?,?,?)";
+            $parameters["creator_user"] = $_SESSION["loggedUser"]->getStudentId();
             $parameters["name"]= $company->getName();
             $parameters["cuit"] = $company->getCuit();
             $parameters["company_link"] = $company->getCompanyLink();
@@ -180,6 +181,29 @@
                     } 
                  }
             return $list_filter;
+        }
+
+        public function GetByCreatorUserAndName($id,$name)
+        {
+            $query = "Call Companies_GetAll()";
+            $this->connection = Connection::GetInstance();
+            $result = $this->connection->Execute($query,array(),QueryType::StoredProcedure); //tengo tods los datos de la BD
+            $company = null;
+            foreach($result as $row)
+            {
+                if($row["creator_user"]==$id && $row["name"]==$name)
+                {
+                    $company = new Company();
+                    $company->setCompanyId($row["companyId"]);
+                    $company->setName($row["name"]);
+                    $company->setCuit($row["cuit"]);
+                    $company->setCompanyLink($row["company_link"]);
+                    $company->setAboutUs($row["aboutUs"]);
+                    $company->setDescription($row["description"]);
+                    $company->setActive($row["active"]);
+                } 
+            }
+            return $company;  
         }
     }
 

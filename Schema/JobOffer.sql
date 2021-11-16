@@ -5,6 +5,7 @@ USE tpfinal;
 CREATE TABLE IF NOT EXISTS joboffers
 (
     jobOfferId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    creator_user int NOT NULL,
     publicationDate  VARCHAR(30) NOT NULL,
     expiryDate  VARCHAR(30) NOT NULL,
     description VARCHAR(30) NOT NULL,
@@ -22,14 +23,14 @@ DROP procedure IF EXISTS `JobOffers_Add`;
 
 DELIMITER $$
 
-CREATE PROCEDURE JobOffers_Add (IN publicationDate VARCHAR(30), IN expiryDate VARCHAR(30) , 
+CREATE PROCEDURE JobOffers_Add (IN creator_user int,IN publicationDate VARCHAR(30), IN expiryDate VARCHAR(30) , 
 IN description VARCHAR(30),IN skills VARCHAR(30),IN tasks VARCHAR(30),IN jobPositionId CHAR (4),IN companyId CHAR (4),IN careerId char (4),IN active boolean)
 BEGIN
 	INSERT INTO joboffers
-        (joboffers.publicationDate,joboffers.expiryDate,joboffers.description,joboffers.skills,joboffers.tasks,joboffers.jobPositionId,
+        (jobOffers.creator_user,joboffers.publicationDate,joboffers.expiryDate,joboffers.description,joboffers.skills,joboffers.tasks,joboffers.jobPositionId,
          joboffers.companyId,jobOffers.careerId,joboffers.active)
     VALUES
-        (publicationDate,expiryDate,description,skills,tasks,jobPositionId,companyId,careerId,active);
+        (creator_user,publicationDate,expiryDate,description,skills,tasks,jobPositionId,companyId,careerId,active);
 END$$
 
 DELIMITER ;
@@ -40,7 +41,7 @@ DELIMITER $$
 
 CREATE PROCEDURE JobOffers_GetAll ()
 BEGIN
-	SELECT jobOfferId,publicationDate,publicationDate,expiryDate,description,skills,tasks,jobPositionId,companyId,careerId,active
+	SELECT jobOfferId,creator_user,publicationDate,publicationDate,expiryDate,description,skills,tasks,jobPositionId,companyId,careerId,active
     FROM joboffers;
 END$$
 

@@ -36,7 +36,8 @@
         </form>
       </div>
       <div class="div-login"> <!-- para el registro -->  
-      <a class="btn-login btn" href="<?php echo  FRONT_ROOT."Student/ShowAddView "?>">REGISTRARSE</a>
+      <a class="btn-login btn" href="<?php echo  FRONT_ROOT."Student/ShowAddView "?>">REGISTRARSE-User</a>
+      <a class="btn-login btn" href="<?php echo  FRONT_ROOT."Student/ShowAddViewUserCompany "?>">REGISTRARSE-Company</a>
       <?php if(isset($message)) {?>
       <table>
          <tr>
@@ -80,6 +81,66 @@
           </tbody>
         </table>
       </div>
+      <?php if(isset($_SESSION["companyUser"])) { 
+        $company = $_SESSION["companyUser"];?>
+        <div class="hoc container clear">
+      <h2>My Company</h2>
+        <table style="text-align:center;">
+          <thead>
+            <tr>
+              <th style="width: 15%;">Name</th>
+              <th style="width: 30%;">Cuit</th>
+              <th style="width: 30%;">Link</th>
+              <th style="width: 15%;">About</th>
+              <th style="width: 15%;">Description</th>
+              <th style="width: 15%;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+                    <td><?php echo $company->getName() ?></td>
+                    <td><?php echo $company->getCuit() ?></td>
+                    <td><?php echo $company->getCompanyLink() ?></td>
+                    <td><?php echo $company->getAboutUs() ?></td>
+                    <td><?php echo $company->getDescription() ?></td>
+                    <td><?php echo $company->getActive() ?></td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      <?php }?>
+      <?php if(isset($_SESSION["jobOfferUser"])) {?>
+       <?php $jobOffer = $_SESSION["jobOfferUser"];?>
+            <div class="hoc container clear">
+            <h2>My JobOffer</h2>
+              <table style="text-align:center;">
+                <thead>
+                  <tr>
+                    <th style="width: 15%;">Publication DATE</th>
+                    <th style="width: 30%;">Expiration DATE</th>
+                    <th style="width: 30%;">Description</th>
+                    <th style="width: 15%;">Skills</th>
+                    <th style="width: 15%;">Tasks</th>
+                    <th style="width: 15%;">JobPositio Desc</th>
+                    <th style="width: 15%;">Company</th>
+                    <th style="width: 15%;">Career Desc</th> 
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><?php echo $jobOffer->getPublicationDate() ?></td>
+                    <td><?php echo $jobOffer->getExpiryDate() ?></td>
+                    <td><?php echo $jobOffer->getDescription() ?></td>
+                    <td><?php echo $jobOffer->getSkills() ?></td>
+                    <td><?php echo $jobOffer->getTasks() ?></td>
+                    <td><?php echo $jobOffer->getJobPosition()->getDescription() ?></td>
+                    <td><?php echo $jobOffer->getCompany()->getName() ?></td>
+                    <td><?php echo $jobOffer->getJobPosition()->getCareer()->getDescription() ?></td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+      <?php }?>
       
   <?php } ?>
     <!-- / main body -->

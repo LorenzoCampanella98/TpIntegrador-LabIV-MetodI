@@ -16,6 +16,11 @@
             require_once(VIEWS_PATH."add-student.php");
         }
 
+        public  function ShowAddViewUserCompany() //par registrarse como User Company
+        {
+            require_once(VIEWS_PATH."add-userCompany.php");
+        }
+
         public function ShowListView()
         {
             $studentList = $this->studentDAO->GetAll();
@@ -56,6 +61,12 @@
         {
             $this->studentDAO->addAdmin($name,$fileNumber,$surname,$password,$email);
             $this->ShowAddAdminView();
+        }
+
+        public function RegisterUserCompany($email,$pass,$name)
+        {
+            $message = $this->studentDAO->RegisterUserCompany($email,$pass,$name);
+            require_once(VIEWS_PATH."home.php");
         }
 
         

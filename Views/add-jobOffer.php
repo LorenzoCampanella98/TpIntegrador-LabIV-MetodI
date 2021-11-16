@@ -44,19 +44,26 @@
                 <?php   
               }
             ?> 
-                </td></select>  
-                <td><select name="companyId">
-                <?php 
-              foreach($companyList as $company)
-              {
-                if($company->getActive()==1){
-                ?>
-                  <option value="<?php echo $company->getCompanyId(); ?>"><?php echo $company->getName();?></option>
-                 
-                <?php   }   
-              }
-            ?> 
-                </td>    </select>            
+                </td></select>
+                <?php if ($_SESSION["loggedUser"]->getTypeStudentId()==3) { ?> 
+                  <td>
+                  <input type="text" name="" value="<?php echo $_SESSION["companyUser"]->getName();?>" size="22" min="0" maxlength="29" disabled>
+                  <input type="text" name="companyId" value="<?php echo $_SESSION["companyUser"]->getCompanyId();?>" size="22" min="0"  style="visibility:hidden">
+                  </td>
+                <?php } else { ?>
+                          <td><select name="companyId">
+                          <?php 
+                        foreach($companyList as $company)
+                        {
+                          if($company->getActive()==1){
+                            ?>
+                              <option value="<?php echo $company->getCompanyId(); ?>"><?php echo $company->getName();?></option>
+                            
+                    <?php   }   
+                      }
+                    ?> 
+                        </td>    </select> 
+                <?php }  ?>           
               </tr>
             </tbody>
           </table>
