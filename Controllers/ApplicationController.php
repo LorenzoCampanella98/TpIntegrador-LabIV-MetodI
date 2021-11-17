@@ -30,6 +30,20 @@ class ApplicationController
             require_once(VIEWS_PATH."list-application.php");
         }
 
+        public function ShowActiveApplications() //funcionalidad extra
+        {
+            $aux = $this->applicationDAO->GetAll();
+            $applicationList = array();
+            foreach ($aux as $application)
+            {
+                if($application->getActive()==1)
+                {
+                    array_push($applicationList,$application);
+                }
+            }
+            require_once(VIEWS_PATH."list-application-admin.php");
+        }
+
         public function Add($studentId,$jobOfferId,$description,$file)
         {   
             //$this->SubirCv($file); //----------------------------------------------------PORQUE NO ANDAAAAAAAA????????????
@@ -55,7 +69,7 @@ class ApplicationController
             $_SESSION["loggedUser"]->setPostulated(1); //porque si bien se actualiza la BD no se actualiza el session  porque cando entra aun no estaba postulad                                         
             $jobOffer=null; //lo necesito en la muestra
             $applicationList = $this->applicationDAO->GetStudentApplications($_SESSION["loggedUser"]->getStudentId());
-            //require_once(VIEWS_PATH."list-application.php");;
+            require_once(VIEWS_PATH."list-application.php");;
         }
 
         public function SubirCv($file)
@@ -107,7 +121,24 @@ class ApplicationController
             $applicationList = $this->applicationDAO->GetStudentApplications($_SESSION["loggedUser"]->getStudentId()); //PORQUE TARDA TANTO LA FUNCION
             $jobOffer=null; //lo necesito en la muestra
             require_once(VIEWS_PATH."list-application.php");;
-            }
+        }
+
+        public function Declinar($id,$studentId)
+        {
+            //$this->applicationDAO->ChangeStatus($id);
+            //$this->studentDAO->ChangePostulated($studentId);
+
+
+            //--- ENVIO DE EMAIL --- //
+            $user = $this->studentDAO->GetById($studentId);
+            $to = $user->getEmail();
+            $subject = "Baja de Aplicacion";
+            $message =  $_SESSION["loggedUser"]->getName()."Ha dado de baja tu aplicacion con ID: ".$id;
+            mail($to, $subject, $message); // NO ANDA LA FUNCION
+
+            require_once(VIEWS_PATH."home.php");
+        }
+
 
     }
 

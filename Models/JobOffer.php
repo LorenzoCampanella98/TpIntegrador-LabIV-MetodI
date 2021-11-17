@@ -12,6 +12,7 @@ class JobOffer
     private $company;
     //private $careerId;
     private $active;
+    private $applicants; //arreglo almacenara los aplicantes
 
     public function getJobOfferId(){ return $this->jobOfferId; }
     public function setJobOfferId($jobOfferId): self { $this->jobOfferId = $jobOfferId; return $this; }
@@ -42,6 +43,9 @@ class JobOffer
 
     //public function getCareerId(){ return $this->careerId; }
     //public function setCareerId($careerId): self { $this->careerId = $careerId; return $this; }
+
+    public function getApplicants(){ return $this->applicants; }
+    public function setApplicants($applicants): self { $this->applicants = $applicants; return $this; }
 }
 
 

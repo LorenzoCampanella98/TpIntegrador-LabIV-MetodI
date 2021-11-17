@@ -49,19 +49,19 @@ class JobOfferDAO implements IJobOfferDAO
             $result = $this->connection->Execute($query,array(),QueryType::StoredProcedure);
             foreach($result as $row)
             {
-                $company = new JobOffer();
-                $company->setJobOfferId($row["jobOfferId"]);
-                $company->setPublicationDate($row["publicationDate"]);
-                $company->setExpiryDate($row["expiryDate"]);
-                $company->setDescription($row["description"]);
-                $company->setSkills($row["skills"]);
-                $company->setTasks($row["tasks"]);
-                //$company->setJobPositionId($row["jobPositionId"]);
-                $company->setJobPosition($this->GetJobPositionById($row["jobPositionId"]));
-                $company->setCompany($companyADO->GetById($row["companyId"])); //devuelve un Comany
-                //$company->setCareerId($row["careerId"]);
-                $company->setActive($row["active"]);
-                array_push($jobOfferList, $company);
+                $jobOffer = new JobOffer();
+                $jobOffer->setJobOfferId($row["jobOfferId"]);
+                $jobOffer->setPublicationDate($row["publicationDate"]);
+                $jobOffer->setExpiryDate($row["expiryDate"]);
+                $jobOffer->setDescription($row["description"]);
+                $jobOffer->setSkills($row["skills"]);
+                $jobOffer->setTasks($row["tasks"]);
+                $jobOffer->setJobPosition($this->GetJobPositionById($row["jobPositionId"]));
+                $jobOffer->setCompany($companyADO->GetById($row["companyId"])); //devuelve un Comany
+               // $jobOffer->setApplicants($this->ListStudentsFilterByJoboffer($row["jobOfferId"]));
+               // echo "control";
+                $jobOffer->setActive($row["active"]);
+                array_push($jobOfferList, $jobOffer);
             }
             return $jobOfferList;
         }
@@ -338,7 +338,7 @@ class JobOfferDAO implements IJobOfferDAO
         
         public function ListStudentsFilterByJoboffer($id) //para view de listar alumnos de job offer
         {
-            $StudentDAO= new StudentDAO;
+            //$StudentDAO= new StudentDAO;
             $applicationDAO = new ApplicationDAO;
             $applicationList = $applicationDAO->getAll();
             $studentList = array();
@@ -379,5 +379,6 @@ class JobOfferDAO implements IJobOfferDAO
             }
             return $jobOffer;  
         }
+
     }
 ?>
