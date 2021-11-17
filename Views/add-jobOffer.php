@@ -45,7 +45,7 @@
               }
             ?> 
                 </td></select>
-                <?php if ($_SESSION["loggedUser"]->getTypeStudentId()==3) { ?> 
+                <?php if ($_SESSION["loggedUser"]->getTypeUserId()==3) { ?> 
                   <td>
                   <input type="text" name="" value="<?php echo $_SESSION["companyUser"]->getName();?>" size="22" min="0" maxlength="29" disabled>
                   <input type="text" name="companyId" value="<?php echo $_SESSION["companyUser"]->getCompanyId();?>" size="22" min="0"  style="visibility:hidden">

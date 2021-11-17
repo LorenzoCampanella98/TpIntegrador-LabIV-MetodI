@@ -1,14 +1,14 @@
 <?php namespace Controllers;
 
     
-    use DAO\StudentDAO as StudentDAO;
+    use DAO\UserDAO as UserDAO;
 
-    class StudentController
+    class UserController
     {
-        private $studentDAO;
+        private $userDAO;
         public function __construct()
         {
-            $this->studentDAO = new StudentDAO;
+            $this->userDAO = new UserDAO;
         }
 
         public  function ShowAddView()
@@ -23,7 +23,7 @@
 
         public function ShowListView()
         {
-            $studentList = $this->studentDAO->GetAll();
+            $userList = $this->userDAO->GetAll();
             require_once(VIEWS_PATH."student-list.php");
         }
 
@@ -39,9 +39,9 @@
 
         public function Register($email,$pass)
         {
-            if($this->studentDAO->checkConnectionAppi()==true)
+            if($this->userDAO->checkConnectionAppi()==true)
             {
-                $message=$this->studentDAO->register($email,$pass);
+                $message=$this->userDAO->register($email,$pass);
                 require_once(VIEWS_PATH."home.php");
             } else {
                 $message = "API DESCONECTADA";
@@ -52,20 +52,20 @@
 
         public function Remove($id)
         {        
-            $this->studentDAO->Remove($id);
+            $this->userDAO->Remove($id);
 
             $this->ShowListView();
         }
 
         public function AddAdmin($name,$fileNumber,$surname,$password,$email)
         {
-            $this->studentDAO->addAdmin($name,$fileNumber,$surname,$password,$email);
+            $this->userDAO->addAdmin($name,$fileNumber,$surname,$password,$email);
             $this->ShowAddAdminView();
         }
 
         public function RegisterUserCompany($email,$pass,$name)
         {
-            $message = $this->studentDAO->RegisterUserCompany($email,$pass,$name);
+            $message = $this->userDAO->RegisterUserCompany($email,$pass,$name);
             require_once(VIEWS_PATH."home.php");
         }
 

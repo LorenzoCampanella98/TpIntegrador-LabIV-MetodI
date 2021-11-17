@@ -1,14 +1,14 @@
 <?php namespace Models;
 
-class Student{
+class User{
     private $fileNumber;
-    private $studentId;
+    private $userId;
     private $name;
     private $surname;
     private $email;
     private $password;
     private $postulated;
-    private $typeStudentId;
+    private $typeUserId;
 
     
 
@@ -27,14 +27,20 @@ class Student{
     public function getPostulated(){ return $this->postulated; }
     public function setPostulated($postulated): self { $this->postulated = $postulated; return $this; }
 
-    public function getStudentId(){ return $this->studentId; }
-    public function setStudentId($studentId): self { $this->studentId = $studentId; return $this; }
+    //public function getStudentId(){ return $this->studentId; }
+    //public function setStudentId($studentId): self { $this->studentId = $studentId; return $this; }
 
     public function getEmail(){ return $this->email; }
     public function setEmail($email): self { $this->email = $email; return $this; }
 
-    public function getTypeStudentId(){ return $this->typeStudentId;}
-    public function setTypeStudentId($typeStudentId): self {$this->typeStudentId = $typeStudentId; return $this;}
+    //public function getTypeStudentId(){ return $this->typeStudentId;}
+    //public function setTypeStudentId($typeStudentId): self {$this->typeStudentId = $typeStudentId; return $this;}
+
+    public function getUserId(){ return $this->userId; }
+    public function setUserId($userId): self { $this->userId = $userId; return $this; }
+
+    public function getTypeUserId(){ return $this->typeUserId; }
+    public function setTypeUserId($typeUserId): self { $this->typeUserId = $typeUserId; return $this; }
 }
 
 

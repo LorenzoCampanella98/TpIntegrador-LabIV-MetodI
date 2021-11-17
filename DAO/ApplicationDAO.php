@@ -5,7 +5,7 @@
     use DAO\Connection as Connection;
     use DAO\QueryType as QueryType;
 
-    use DAO\StudentDAO as StudentDAO;
+    use DAO\UserDAO as UserDAO;
     use DAO\JobOfferDAO as JobOfferDAO;
     use \Exception as Exception;
 
@@ -23,7 +23,7 @@ class ApplicationDAO implements IApplicationDAO
 
             
             $parameters["applicationDate"]= $application->getApplicationDate();
-            $parameters["studentId"] = $application->getStudent()->getStudentId();
+            $parameters["studentId"] = $application->getUser()->getUserId();
             $parameters["jobOfferId"] = $application->getJobOffer()->getJobOfferId();
             $parameters["cv"] = $application->getCv();
             $parameters["description"] = $application->getDescription();   
@@ -36,7 +36,7 @@ class ApplicationDAO implements IApplicationDAO
         
         public function GetAll()
         {
-            $studentDAO = new StudentDAO;
+            $userDAO = new UserDAO;
             $jobOfferDAO = new JobOfferDAO;
             $applicationList = array();
             $query = "Call Applications_GetAll()";
@@ -47,7 +47,7 @@ class ApplicationDAO implements IApplicationDAO
                 $application = new Application();
                 $application->setApplicationId($row["applicationId"]);
                 $application->setApplicationDate($row["applicationDate"]);
-                $application->setStudent($studentDAO->GetById($row["studentId"])); //devuelve un student
+                $application->setUser($userDAO->GetById($row["studentId"])); //devuelve un student
                 $application->setJobOffer($jobOfferDAO->SearchJobOffer($row["jobOfferId"])); //devuelve el Job Offer
                 $application->setCv($row["cv"]);
                 $application->setDescription($row["description"]);
@@ -63,7 +63,7 @@ class ApplicationDAO implements IApplicationDAO
                 $query = "CALL cv_add(?,?);";
                 
                 $parameters["name"] = $cv->getName();
-                $parameters["studentId"]=$_SESSION["loggedUser"]->getStudentId();
+                $parameters["studentId"]=$_SESSION["loggedUser"]->getUserId();
 
                 $this->connection = Connection::GetInstance();
 
@@ -88,7 +88,7 @@ class ApplicationDAO implements IApplicationDAO
 
         public function GetStudentApplications($id) //hace una lista de las aplicaciones para este usuario
         {
-            $studentDAO = new StudentDAO;
+            $userDAO = new UserDAO;
             $jobOfferDAO = new JobOfferDAO;
             $applicationList = array();
             $query = "Call Applications_GetAll()";
@@ -100,7 +100,7 @@ class ApplicationDAO implements IApplicationDAO
                     $application = new Application();
                     $application->setApplicationId($row["applicationId"]);
                     $application->setApplicationDate($row["applicationDate"]);
-                    $application->setStudent($studentDAO->GetById($row["studentId"])); //devuelve un student
+                    $application->setUser($userDAO->GetById($row["studentId"])); //devuelve un student
                     $application->setJobOffer($jobOfferDAO->SearchJobOffer($row["jobOfferId"])); //devuelve el Job Offe
                     $application->setCv($row["cv"]);
                     $application->setDescription($row["description"]);

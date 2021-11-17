@@ -1,10 +1,10 @@
 <?php namespace DAO;
 
-    use Models\Student as Student;
+    use Models\User as User;
 
-    interface IStudentDAO
+    interface IUserDAO
     {
-        public function Add(Student $student);
+        public function Add(User $user);
         public function GetAll();
         public function Remove($id);
         public function GetById($id);

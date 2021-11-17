@@ -42,9 +42,9 @@
                     <td><?php echo $jobOffer->getCompany()->getDescription() ?></td>
                     <td><?php echo $jobOffer->getJobPosition()->getCareer()->getDescription() ?></td>
                     <td><?php echo $jobOffer->getActive() ?></td>
-                    <td>
+                    <?php /* <td>
                       <button type="submit" name="id" class="btn" value="<?php echo $jobOffer->getJobOfferId() ?>"> Ver Aplicaciones </button>
-                    </td>
+                    </td>*/ ?>
                   </tr>
                 <?php
               }
@@ -52,13 +52,26 @@
           </tbody>
         </table></form>
         <?php foreach ($jobOfferList as $jobOffer) {
-          $studentList = $jobOffer->getApplicants();
+          $userList = $jobOffer->getApplicants();
           ?>
-        <?php if($studentList != null) { ?> 
+        <?php if($userList != null) { ?> 
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    Alumnos postulados a la JobOffer: <?php echo  $jobOffer->getJobOfferId()?>
+                    -> company: <?php echo $jobOffer->getCompany()->getDescription() ?>
+                    -> JobPosition: <?php echo $jobOffer->getJobPosition()->getDescription() ?>
+                </th>
+                </tr>
+              </thead>
+            </table>
+            <?php /*<h4>Alumnos postulados a la JobOffer: <?php echo  $jobOffer->getJobOfferId()?></h4>*/ ?>
             <table style="text-align:center;">
           <thead>
             <tr>
-              <th style="width: 15%;">JobOfferId</th>
+             <!-- <th style="width: 15%;">JobOfferId</th> -->
               <th style="width: 15%;">Student Id</th>
               <th style="width: 30%;">File Number</th>
               <th style="width: 30%;">Name</th>
@@ -68,23 +81,23 @@
           </thead>
           <tbody>
             <?php
-                foreach($studentList  as $student)
+                foreach($userList  as $user)
                 {
                   ?>
                     <tr>
-                      <td><?php echo $jobOffer->getJobOfferId() ?></td>
-                      <td><?php echo $student->getStudentId() ?></td>
-                      <td><?php echo $student->getFileNumber() ?></td>
-                      <td><?php echo $student->getName() ?></td>
-                      <td><?php echo $student->getSurname() ?></td>
-                      <td><?php echo $student->getEmail() ?></td>
+                     <!-- <td>< //?php echo $jobOffer->getJobOfferId() ?></td> -->
+                      <td><?php echo $user->getUserId() ?></td>
+                      <td><?php echo $user->getFileNumber() ?></td>
+                      <td><?php echo $user->getName() ?></td>
+                      <td><?php echo $user->getSurname() ?></td>
+                      <td><?php echo $user->getEmail() ?></td>
                     </tr> 
                 
                   <?php
                 }
               ?> 
           </tbody>
-        </table>
+        </table></div>
         <?php }?>
         <?php }?>
       </div>
