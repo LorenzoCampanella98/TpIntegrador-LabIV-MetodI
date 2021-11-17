@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS tpfinal;
 
 USE tpfinal;
-
+/**/
 CREATE TABLE IF NOT EXISTS typeStudent
 (
     typeStudentId int NOT NULL AUTO_INCREMENT PRIMARY KEY,
