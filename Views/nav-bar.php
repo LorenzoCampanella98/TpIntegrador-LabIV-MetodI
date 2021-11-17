@@ -28,6 +28,7 @@
             <ul>
               <!-- PARA STUDENT-->
               <li><a href="<?php echo  FRONT_ROOT."Student/ShowListView "?>">LIST</a></li>
+              <li><a href="<?php echo  FRONT_ROOT."Application/ShowActiveApplications "?>">LIST-Applications</a></li>
             </ul>
           </li>
       </ul>
@@ -59,6 +60,7 @@
                 <li><a href="<?php echo  FRONT_ROOT."JobOffer/ShowListView "?>">LIST / status</a></li>
                 <li><a href="<?php echo  FRONT_ROOT."JobOffer/ShowModifyView "?>">MODIFY</a></li>
                 <li><a href="<?php echo  FRONT_ROOT."JobOffer/ShowStudentListByJobOffer "?>">Alumons por JOffer</a></li>
+                <li><a href="<?php echo  FRONT_ROOT."JobOffer/CheckDateJobOffer "?>">Baja JobOffer expirada</a></li>
               <?php } ?>
               <li><a href="<?php echo  FRONT_ROOT."JobOffer/ShowSearchView "?>">SEARCH</a></li>
             </ul>

@@ -51,34 +51,33 @@
             ?> 
           </tbody>
         </table></form>
+        <?php foreach ($jobOfferList as $jobOffer) {
+          $studentList = $jobOffer->getApplicants();
+          ?>
         <?php if($studentList != null) { ?> 
             <table style="text-align:center;">
           <thead>
             <tr>
+              <th style="width: 15%;">JobOfferId</th>
               <th style="width: 15%;">Student Id</th>
               <th style="width: 30%;">File Number</th>
               <th style="width: 30%;">Name</th>
               <th style="width: 15%;">Surname</th>
               <th style="width: 15%;">Email</th>
-              <th style="width: 10%;">Postulacion activa</th>
             </tr>
           </thead>
           <tbody>
             <?php
-                foreach($studentList as $student)
+                foreach($studentList  as $student)
                 {
                   ?>
                     <tr>
+                      <td><?php echo $jobOffer->getJobOfferId() ?></td>
                       <td><?php echo $student->getStudentId() ?></td>
                       <td><?php echo $student->getFileNumber() ?></td>
                       <td><?php echo $student->getName() ?></td>
                       <td><?php echo $student->getSurname() ?></td>
                       <td><?php echo $student->getEmail() ?></td>
-                      <td><?php if($student->getPostulated()==1){
-                        echo "SI";
-                      } else {
-                        echo "NO";
-                      } ?></td>
                     </tr> 
                 
                   <?php
@@ -86,6 +85,7 @@
               ?> 
           </tbody>
         </table>
+        <?php }?>
         <?php }?>
       </div>
     </div>
