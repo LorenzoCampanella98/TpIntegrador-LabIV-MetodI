@@ -10,6 +10,7 @@ interface IApplicationDAO
     public function GetStudentApplications($id);
     public function ChangeStatus($id);
     public function CheckApplicationStatus($id);
+    public function addCV($cv);
 }
 
 
