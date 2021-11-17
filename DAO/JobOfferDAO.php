@@ -7,7 +7,7 @@
     use DAO\QueryType as QueryType;
 
     use DAO\ApplicationDAO as ApplicationDAO; //los uso para armar una lista de estudiantes que aplicarona a una job offer
-    use DAO\StudentDAO as StudentDAO;
+    use DAO\UserDAO as UserDAO;
 
     use DAO\CompanyDAO as CompanyDAO; //ultima modificacion company dentro de JobOffer
     
@@ -23,7 +23,7 @@ class JobOfferDAO implements IJobOfferDAO
         public function Add(JobOffer $jobOffer)
         {
             $query = "CALL JobOffers_Add(?,?,?,?,?,?,?,?,?,?)";
-            $parameters["creator_user"] = $_SESSION["loggedUser"]->getStudentId();
+            $parameters["creator_user"] = $_SESSION["loggedUser"]->getUserId();
             $parameters["publicationDate"]= $jobOffer->getPublicationDate();
             $parameters["expiryDate"] = $jobOffer->getExpiryDate();
             $parameters["description"] = $jobOffer->getDescription();
@@ -338,20 +338,20 @@ class JobOfferDAO implements IJobOfferDAO
         
         public function ListStudentsFilterByJoboffer($id) //para view de listar alumnos de job offer
         {
-            //$StudentDAO= new StudentDAO;
+            //$UserDAO= new UserDAO;
             $applicationDAO = new ApplicationDAO;
             $applicationList = $applicationDAO->getAll();
-            $studentList = array();
+            $userList = array();
             foreach ($applicationList as $application)
             {
                 if($application->getJobOffer()->getJobOfferId()==$id)
                 {
-                    //$student=$application->getStudent();
-                    //array_push($studentList,$student);
-                    array_push($studentList,$application->getStudent());
+                    //$user=$application->getUser();
+                    //array_push($userList,$user);
+                    array_push($userList,$application->getUser());
                 }
             }
-            return $studentList;
+            return $userList;
         }
 
         public function GetByCreatorUserAndName($creatorUserId,$companyId)

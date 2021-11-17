@@ -68,7 +68,7 @@ class JobOfferController
                 $jobOffer->setApplicants($this->jobOfferDAO->ListStudentsFilterByJoboffer($jobOffer->getJobOfferId()));
                 array_push($aux,$jobOffer);
             }
-            $studentList=null;
+            $userList=null;
             $this->jobOfferList = $aux;
             $jobOfferList = $aux;
             require_once(VIEWS_PATH."list-studentsByJobOffer.php");  
@@ -76,7 +76,7 @@ class JobOfferController
 
         public function ShowStudentListByJobOfferUserCompany()
         {
-            $studentList=$this->jobOfferDAO->ListStudentsFilterByJoboffer($_SESSION["jobOfferUser"]->getJobOfferId());
+            $userList=$this->jobOfferDAO->ListStudentsFilterByJoboffer($_SESSION["jobOfferUser"]->getJobOfferId());
             require_once(VIEWS_PATH."list-applicants-userCompany.php");
         }
 
@@ -95,8 +95,8 @@ class JobOfferController
                 $jobOffer->setCompany($this->companyDAO->GetById($companyId)); //retonrna una company
                 $jobOffer->setActive(1); //no me toma true
                 $this->jobOfferDAO->Add($jobOffer);
-                if ($_SESSION["loggedUser"]->getTypeStudentId()==3) {
-                    $_SESSION["jobOfferUser"]= $this->jobOfferDAO->GetByCreatorUserAndName($_SESSION["loggedUser"]->getStudentId(),$companyId);
+                if ($_SESSION["loggedUser"]->getTypeUserId()==3) {
+                    $_SESSION["jobOfferUser"]= $this->jobOfferDAO->GetByCreatorUserAndName($_SESSION["loggedUser"]->getUserId(),$companyId);
                     require_once(VIEWS_PATH."home.php");
                 } else {
                      $this->ShowAddView();
@@ -114,7 +114,8 @@ class JobOfferController
             //$jobOfferList = $this->jobOfferDAO->GetAll();
             $jobOfferList = $this->jobOfferList;
             $this->jobOfferDAO->Modify($id,$description,$skills,$tasks,$active);
-            $this->ShowModifyView();
+            $this->jobOfferList = $this->jobOfferDAO->GetAll();
+            require_once(VIEWS_PATH."modify-jobOffer.php");
         }
 
         public function ModifyUserCompany($description,$skills,$tasks)
@@ -123,7 +124,8 @@ class JobOfferController
             $id = $jobOffer->getJobOfferId();
             $active = $jobOffer->getActive();
             $this->jobOfferDAO->Modify($id,$description,$skills,$tasks,$active);
-            $_SESSION["jobOfferUser"] = $this->jobOfferDAO->SearchJobOffer($id);
+            //$_SESSION["jobOfferUser"] = $this->jobOfferDAO->SearchJobOffer($id);
+            $_SESSION["jobOfferUser"]=$this->jobOfferDAO->GetByCreatorUserAndName($_SESSION["loggedUser"]->getUserId(),$_SESSION["companyUser"]->getCompanyId());
             require_once(VIEWS_PATH."home.php");
         }
 
@@ -131,7 +133,7 @@ class JobOfferController
         {        
             $this->jobOfferDAO->Remove($id);
 
-            $this->ShowListView();
+            require_once(VIEWS_PATH."home.php");
         }
 
         public function Search($id)
@@ -169,7 +171,7 @@ class JobOfferController
         {
             $message=null; //por si hay que mostrar un mensaje en la view
             $applicationDAO = new ApplicationDAO;
-            $applicationList = $applicationDAO->GetStudentApplications($_SESSION["loggedUser"]->getStudentId()); //porque lo necesita list-application
+            $applicationList = $applicationDAO->GetStudentApplications($_SESSION["loggedUser"]->getUserId()); //porque lo necesita list-application
 
            // $jobOfferList = $this->jobOfferDAO->GetAll();
            $jobOfferList = $this->jobOfferList;
@@ -187,20 +189,20 @@ class JobOfferController
         /*public function ListStudentsByJobOffer($id) //PARA LISTAR ALUMNOS DE UNA JOB OFFER
         {
             $jobOfferList = $this->jobOfferDAO->GetAll();
-            $studentList=$this->jobOfferDAO->ListStudentsFilterByJoboffer($id); // PORQUE TARDA TANTO ESTA FUNCION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            $userList=$this->jobOfferDAO->ListStudentsFilterByJoboffer($id); // PORQUE TARDA TANTO ESTA FUNCION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             require_once(VIEWS_PATH."list-studentsByJobOffer.php"); 
         }*/
 
         public function ListStudentsByJobOffer($id) //PARA LISTAR ALUMNOS DE UNA JOB OFFER
         {
             //$jobOfferList = $this->jobOfferDAO->GetAll();
-            //$studentList=$this->jobOfferDAO->ListStudentsFilterByJoboffer($id); // PORQUE TARDA TANTO ESTA FUNCION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            $studentList = null;
+            //$userList=$this->jobOfferDAO->ListStudentsFilterByJoboffer($id); // PORQUE TARDA TANTO ESTA FUNCION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            $userList = null;
             foreach($this->jobOfferList as $jobOffer)
             {
                 if($jobOffer->getJobOfferId() == $id)
                 {
-                    $studentList=$jobOffer->getApplicants();
+                    $userList=$jobOffer->getApplicants();
                 }
             }
             $jobOfferList = $this->jobOfferList;
@@ -219,13 +221,13 @@ class JobOfferController
                 if($jobOffer->getActive()==1 && $expiryDate<$actualDate) //si aun esta activa y la fecha de expiracion es menor a la fecha actual
                 {
                     $this->jobOfferDAO->ChangeStatus($jobOffer->getJobOfferId()); //cambio el estado de la Job Offer a inactivo
-                    $studentList = $this->jobOfferDAO->ListStudentsFilterByJoboffer($jobOffer->getJobOfferId()); //cargo la lisa de alumnos postudalods a eta job offer
-                    foreach ($studentList as $student) //por cada alumno se le envia un correo electronico de reconocimiento
+                    $userList = $this->jobOfferDAO->ListStudentsFilterByJoboffer($jobOffer->getJobOfferId()); //cargo la lisa de alumnos postudalods a eta job offer
+                    foreach ($userList as $user) //por cada alumno se le envia un correo electronico de reconocimiento
                     {
-                        $to = $student->getEmail();
+                        $to = $user->getEmail();
                         $subject = "jobOffer Finalizada";
                         $message =  "La job Offer ".$jobOffer->getDescription()."ha finalizado, GRACIAS POR PARTICIPAR";
-                        //mail($to, $subject, $message);
+                        //mail($to, $subject, $message); //error en el servidor de wamp -> problemas de configuracion del servidor.
                     }
                     array_push($jobOffersFinalizadas,$jobOffer);
                 }

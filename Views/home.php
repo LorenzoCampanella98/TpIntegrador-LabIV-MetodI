@@ -36,8 +36,8 @@
         </form>
       </div>
       <div class="div-login"> <!-- para el registro -->  
-      <a class="btn-login btn" href="<?php echo  FRONT_ROOT."Student/ShowAddView "?>">REGISTRARSE-User</a>
-      <a class="btn-login btn" href="<?php echo  FRONT_ROOT."Student/ShowAddViewUserCompany "?>">REGISTRARSE-Company</a>
+      <a class="btn-login btn" href="<?php echo  FRONT_ROOT."User/ShowAddView "?>">REGISTRARSE-User</a>
+      <a class="btn-login btn" href="<?php echo  FRONT_ROOT."User/ShowAddViewUserCompany "?>">REGISTRARSE-Company</a>
       <?php if(isset($message)) {?>
       <table>
          <tr>
@@ -53,30 +53,48 @@
       
       <?php 
     } else { 
-      $student_actual=$_SESSION["loggedUser"]; //Guardo el session en student para mostrarlo?>
+      $user_actual=$_SESSION["loggedUser"]; //Guardo el session en student para mostrarlo?>
       <div class="hoc container clear">
       <h2>Me</h2>
         <table style="text-align:center;">
           <thead>
             <tr>
-              <th style="width: 15%;">Student Id</th>
+              <th style="width: 15%;">User Id</th>
+              <?php if ($_SESSION["loggedUser"]->getTypeUserId()==1) {?>
               <th style="width: 30%;">file Number</th>
+              <?php }?>
               <th style="width: 30%;">Name</th>
+              <?php  if ($_SESSION["loggedUser"]->getTypeUserId()!=3){ ?>
               <th style="width: 15%;">Surname</th>
+              <?php }?>
               <th style="width: 15%;">Email</th>
               <th style="width: 15%;">Password</th>
-              <th style="width: 10%;">postulated</th>
+              <?php if ($_SESSION["loggedUser"]->getTypeUserId()==1) {?>
+              <th style="width: 10%;">Application Activas</th>
+              <?php }?>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><?php echo $student_actual->getStudentId() ?></td>
-              <td><?php echo $student_actual->getFileNumber() ?></td>
-              <td><?php echo $student_actual->getName() ?></td>
-              <td><?php echo $student_actual->getSurname() ?></td>
-              <td><?php echo $student_actual->getEmail() ?></td>
-              <td><?php echo $student_actual->getPassword() ?></td>
-              <td><?php echo $student_actual->getPostulated() ?></td>
+              <td><?php echo $user_actual->getUserId() ?></td>
+              <?php if ($_SESSION["loggedUser"]->getTypeUserId()==1) { ?>
+              <td><?php echo $user_actual->getFileNumber() ?></td>
+              <?php }?>
+              <td><?php echo $user_actual->getName() ?></td>
+              <?php if ($_SESSION["loggedUser"]->getTypeUserId()!=3) {?>
+              <td><?php echo $user_actual->getSurname() ?></td>
+              <?php } ?>
+              <td><?php echo $user_actual->getEmail() ?></td>
+              <td><?php echo $user_actual->getPassword() ?></td>
+              <?php if ($_SESSION["loggedUser"]->getTypeUserId()==1) { ?>
+              <td>
+                <?php if($user_actual->getPostulated()==1) {
+                        echo "si"; } else {
+                          echo "no";
+                      
+                 }?>
+              </td>
+              <?php } ?>
               </tr>
           </tbody>
         </table>

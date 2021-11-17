@@ -15,7 +15,7 @@
           <h1 class="text-login">REGISTRO</h1>
         </div>
       <div class="div-login">  
-        <form action="<?php echo FRONT_ROOT."Student/Register" ?>" method="post">
+        <form action="<?php echo FRONT_ROOT."User/Register" ?>" method="post">
           <input class="input-login" type="text" name="email" placeholder="email" maxlength="29" required>
           <input class="input-login" type="text" name="pass" placeholder="pass" maxlength="29" required>
           <button class="btn-login btn" type="submit" name="btnLogin">REGISTRARSE</button>

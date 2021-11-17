@@ -43,11 +43,11 @@
         
           </tbody>
         </table></form>
-        <?php if($studentList != null) { ?> 
+        <?php if($userList != null) { ?> 
             <table style="text-align:center;">
           <thead>
             <tr>
-              <th style="width: 15%;">Student Id</th>
+              <th style="width: 15%;">User Id</th>
               <th style="width: 30%;">File Number</th>
               <th style="width: 30%;">Name</th>
               <th style="width: 15%;">Surname</th>
@@ -57,16 +57,16 @@
           </thead>
           <tbody>
             <?php
-                foreach($studentList as $student)
+                foreach($userList as $user)
                 {
                   ?>
                     <tr>
-                      <td><?php echo $student->getStudentId() ?></td>
-                      <td><?php echo $student->getFileNumber() ?></td>
-                      <td><?php echo $student->getName() ?></td>
-                      <td><?php echo $student->getSurname() ?></td>
-                      <td><?php echo $student->getEmail() ?></td>
-                      <td><?php if($student->getPostulated()==1){
+                      <td><?php echo $user->getUserId() ?></td>
+                      <td><?php echo $user->getFileNumber() ?></td>
+                      <td><?php echo $user->getName() ?></td>
+                      <td><?php echo $user->getSurname() ?></td>
+                      <td><?php echo $user->getEmail() ?></td>
+                      <td><?php if($user->getPostulated()==1){
                         echo "SI";
                       } else {
                         echo "NO";

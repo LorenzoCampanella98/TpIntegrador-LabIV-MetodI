@@ -12,7 +12,7 @@
         public function Add(Company $company)
         {
             $query = "CALL Companies_Add(?,?,?,?,?,?,?)";
-            $parameters["creator_user"] = $_SESSION["loggedUser"]->getStudentId();
+            $parameters["creator_user"] = $_SESSION["loggedUser"]->getUserId();
             $parameters["name"]= $company->getName();
             $parameters["cuit"] = $company->getCuit();
             $parameters["company_link"] = $company->getCompanyLink();

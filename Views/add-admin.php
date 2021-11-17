@@ -10,7 +10,7 @@
     <div class="content" > 
       <div id="comments" style="align-items:center;">
         <h2>Add ADMIN</h2>
-        <form action="<?php echo FRONT_ROOT?> Student/AddAdmin" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
+        <form action="<?php echo FRONT_ROOT?> User/AddAdmin" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
           <table> 
             <thead>
               <tr>

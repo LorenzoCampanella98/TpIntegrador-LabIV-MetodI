@@ -1,69 +1,69 @@
 <?php namespace DAO;
 
-    use DAO\IStudentDAO as IStudentDAO;
-    use Models\Student as Student;
+    use DAO\IUserDAO as IUserDAO;
+    use Models\User as User;
     use DAO\Connection as Connection;
     use DAO\QueryType as QueryType;
 
-    class StudentDAO implements IStudentDAO{
+    class UserDAO implements IUserDAO{
         private $connection;
 
-        public function Add( Student $student)
+        public function Add( User $user)
         {
             $query = "CALL studentRegistered_Add(?,?,?,?,?,?,?)";
-            $parameters["fileNumber"] = $student->getFileNumber();
-            $parameters["name"] = $student->getName();
-            $parameters["surname"] = $student->getSurname();
-            $parameters["password"] = $student->getPassword();
-            $parameters["email"] = $student->getEmail();
-            $parameters["postulated"] = $student->getPostulated();
-            $parameters["typeStudentId"] = $student->getTypeStudentId();
+            $parameters["fileNumber"] = $user->getFileNumber();
+            $parameters["name"] = $user->getName();
+            $parameters["surname"] = $user->getSurname();
+            $parameters["password"] = $user->getPassword();
+            $parameters["email"] = $user->getEmail();
+            $parameters["postulated"] = $user->getPostulated();
+            $parameters["typeStudentId"] = $user->getTypeUserId();
             $this->connection = Connection::GetInstance();
             $this->connection->ExecuteNonQuery($query, $parameters, QueryType::StoredProcedure);
         }
 
         public function GetAll()
         {
-            $studentList = array();
+            $userList = array();
             $query = "Call StudentRegistered_GetAll()";
             $this->connection = Connection::GetInstance();
             $result = $this->connection->Execute($query,array(),QueryType::StoredProcedure);
             foreach($result as $row)
             {
-                $student = new Student();
-                $student->setStudentId($row["studentId"]);
-                $student->setFileNumber($row["fileNumber"]);
-                $student->setName($row["name"]);
-                $student->setSurname($row["surname"]);
-                $student->setPassword($row["password"]);
-                $student->setEmail($row["email"]);
-                $student->setPostulated($row["postulated"]);
-                $student->setTypeStudentId($row["typeStudentId"]);
-                array_push($studentList, $student);
+                $user = new User();
+                $user->setUserId($row["studentId"]);
+                $user->setFileNumber($row["fileNumber"]);
+                $user->setName($row["name"]);
+                $user->setSurname($row["surname"]);
+                $user->setPassword($row["password"]);
+                $user->setEmail($row["email"]);
+                $user->setPostulated($row["postulated"]);
+                $user->setTypeUserId($row["typeStudentId"]);
+                array_push($userList, $user);
             }
-            return $studentList;
+            return $userList;
         }
 
          function GetById($id)
         {
-            $studentList=$this->GetAll(); //traigo la company a modificar
-            $student = new Student();
-            foreach($studentList as $value) {
-                if($value->getStudentId() == $id) //filtro busqueda
+            $userList=$this->GetAll(); //traigo la company a modificar
+            $user = new User();
+            foreach($userList as $value) {
+                if($value->getUserId() == $id) //filtro busqueda
                 {
-                  $student = $value;
+                  $user = $value;
                 }
             }
-            return $student;
+            return $user;
         }
 
         private function CheckByEmailBD($email)
         {
-            $studentList=$this->GetAll();
+            $userList=$this->GetAll();
             $aux=0;
-            foreach ($studentList as $student)
+            foreach ($userList as $user)
             {
-                if($student->getEmail()==$email)
+                if($user->getEmail()==$email)
                 {
                     $aux=1; //1 es porque lo
                 }
@@ -76,23 +76,23 @@
             $query = "Call StudentRegistered_GetAll()";
             $this->connection = Connection::GetInstance();
             $result = $this->connection->Execute($query,array(),QueryType::StoredProcedure); //tengo tods los datos de la BD
-            $student = null;
+            $user = null;
             foreach($result as $row)
             {
                 if($row["email"]==$email && $row["password"]==$password)
                 {
-                    $student = new Student();
-                    $student->setStudentId($row["studentId"]);
-                    $student->setFileNumber($row["fileNumber"]);
-                    $student->setName($row["name"]);
-                    $student->setSurname($row["surname"]);
-                    $student->setPassword($row["password"]);
-                    $student->setEmail($row["email"]);
-                    $student->setPostulated($row["postulated"]);
-                    $student->setTypeStudentId($row["typeStudentId"]);
+                    $user = new User();
+                    $user->setUserId($row["studentId"]);
+                    $user->setFileNumber($row["fileNumber"]);
+                    $user->setName($row["name"]);
+                    $user->setSurname($row["surname"]);
+                    $user->setPassword($row["password"]);
+                    $user->setEmail($row["email"]);
+                    $user->setPostulated($row["postulated"]);
+                    $user->setTypeUserId($row["typeStudentId"]);
                 } 
             }
-            return $student;
+            return $user;
         }
         
         
@@ -158,17 +158,17 @@
                 {
                     if($content["active"]==true)
                     {
-                        $student = new Student();
-                        $student->setFileNumber($content["fileNumber"]);
-                        $student->setName($content["firstName"]);
-                        $student->setSurname($content["lastName"]);
-                        $student->setPassword($password);
-                        $student->setEmail($content["email"]);
-                        $student->setPostulated(0);
-                        $student->setTypeStudentId(1); //1 es estudiante , 2 es admin
+                        $user = new User();
+                        $user->setFileNumber($content["fileNumber"]);
+                        $user->setName($content["firstName"]);
+                        $user->setSurname($content["lastName"]);
+                        $user->setPassword($password);
+                        $user->setEmail($content["email"]);
+                        $user->setPostulated(0);
+                        $user->setTypeUserId(1); //1 es estudiante , 2 es admin
                         if($this->CheckByEmailBD($email)==0)
                         { 
-                            $this->Add($student);
+                            $this->Add($user);
                             $message = "REGISTADO: ".$email." --- INTENTA LOGUEARTE ----";
                         } else {
                             $message = $email." ---- YA ESTA REGISTRADO";
@@ -183,10 +183,10 @@
 
         public function registerUserCompany($email,$password,$name)
         {
-            $user = new Student();
+            $user = new User();
             $user->setEmail($email);
             $user->setPassword($password);
-            $user->setTypeStudentId(3);
+            $user->setTypeUserId(3);
             $user->setFileNumber("0");
             $user->setName($name);
             $user->setSurname("0");
@@ -198,31 +198,31 @@
 
         public function addAdmin($name,$fileNumber,$surname,$password,$email)
         {
-            $student = new Student();
-            $student->setFileNumber($fileNumber);
-            $student->setName($name);
-            $student->setSurname($surname);
-            $student->setPassword($password);
-            $student->setEmail($email);
-            $student->setPostulated(0);
-            $student->setTypeStudentId(2); //1 es estudiante , 2 es admin
-            $this->Add($student);
+            $user = new User();
+            $user->setFileNumber($fileNumber);
+            $user->setName($name);
+            $user->setSurname($surname);
+            $user->setPassword($password);
+            $user->setEmail($email);
+            $user->setPostulated(0);
+            $user->setTypeUserId(2); //1 es estudiante , 2 es admin
+            $this->Add($user);
         }
 
         
         public function ChangePostulated($id)
         {
-            $studentList=$this->GetAll(); //traigo la company a modificar
-            $student = new Student();
-            foreach($studentList as $value) {
-                if($value->getStudentId() == $id) //filtro busqueda
+            $userList=$this->GetAll(); //traigo la company a modificar
+            $user = new User();
+            foreach($userList as $value) {
+                if($value->getUserId() == $id) //filtro busqueda
                 {
-                  $student = $value;  
+                  $user = $value;  
                 }
             }
             $query = "CALL StudentRegistered_ChangePostulated(?,?)";
             $parameters["id"] =  $id;
-            if($student->getPostulated()==0){
+            if($user->getPostulated()==0){
                 $parameters["newSatus"] =1;
             } else {
                 $parameters["newSatus"] =0;

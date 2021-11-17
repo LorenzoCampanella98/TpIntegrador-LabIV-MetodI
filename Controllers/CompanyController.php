@@ -56,8 +56,8 @@
                     $company->setDescription($description);
                     $company->setActive(1); //no me toma el true 
                     $this->companyDAO->Add($company);
-                    if ($_SESSION["loggedUser"]->getTypeStudentId()==3) {
-                        $_SESSION["companyUser"]= $this->companyDAO->GetByCreatorUserAndName($_SESSION["loggedUser"]->getStudentId(),$name); //actualizo para views
+                    if ($_SESSION["loggedUser"]->getTypeUserId()==3) {
+                        $_SESSION["companyUser"]= $this->companyDAO->GetByCreatorUserAndName($_SESSION["loggedUser"]->getUserId(),$name); //actualizo para views
                         require_once(VIEWS_PATH."home.php");
                     } else {
                         $this->ShowAddView();

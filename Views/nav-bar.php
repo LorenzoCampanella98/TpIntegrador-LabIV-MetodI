@@ -11,13 +11,13 @@
       </ul>
     </nav>
     
-    <?php if($_SESSION["loggedUser"]->getTypeStudentId()==2){ // MENU FILTRADO SOLO PARA ADMINS?> 
+    <?php if($_SESSION["loggedUser"]->getTypeUserId()==2){ // MENU FILTRADO SOLO PARA ADMINS?> 
       <nav id="mainav" class="fl_right">
       <ul class="clear">
           <li class="active"><a class="drop" href="#">Admin</a>
             <ul>
               <!-- PARA admins-->
-              <li><a href="<?php echo  FRONT_ROOT."Student/ShowAddAdminView "?>">ADD-admin</a></li>
+              <li><a href="<?php echo  FRONT_ROOT."User/ShowAddAdminView "?>">ADD-admin</a></li>
             </ul>
           </li>
       </ul>
@@ -27,20 +27,20 @@
           <li class="active"><a class="drop" href="#">Student</a>
             <ul>
               <!-- PARA STUDENT-->
-              <li><a href="<?php echo  FRONT_ROOT."Student/ShowListView "?>">LIST</a></li>
+              <li><a href="<?php echo  FRONT_ROOT."User/ShowListView "?>">LIST</a></li>
               <li><a href="<?php echo  FRONT_ROOT."Application/ShowActiveApplications "?>">LIST-Applications</a></li>
             </ul>
           </li>
       </ul>
     </nav>
     <?php } ?>
-    <?php if($_SESSION["loggedUser"]->getTypeStudentId()==1 ||$_SESSION["loggedUser"]->getTypeStudentId()==2 ) { ?>
+    <?php if($_SESSION["loggedUser"]->getTypeUserId()==1 ||$_SESSION["loggedUser"]->getTypeUserId()==2 ) { ?>
     <nav id="mainav" class="fl_right">
       <ul class="clear">
           <li class="active"><a class="drop" href="#">Company</a>
             <ul>
               <!--PARA COMPANY-->
-              <?php if($_SESSION["loggedUser"]->getTypeStudentId()==2){ // PRUEBA DE FUNCIONES SOLO PARA ADMIN EN EL NAVBAR?>
+              <?php if($_SESSION["loggedUser"]->getTypeUserId()==2){ // PRUEBA DE FUNCIONES SOLO PARA ADMIN EN EL NAVBAR?>
                 <li><a href="<?php echo  FRONT_ROOT."Company/ShowAddView "?>">ADD</a></li>
                 <li><a href="<?php echo  FRONT_ROOT."Company/ShowModifyView "?>">MODIFY</a></li>
                 <li><a href="<?php echo  FRONT_ROOT."Company/ShowListView "?>">LIST / status</a></li>
@@ -55,9 +55,9 @@
           <li class="active"><a class="drop" href="#">JobOffer</a>
             <ul>
               <!--PARA JobOffer-->
-              <?php if($_SESSION["loggedUser"]->getTypeStudentId()==2){ // PRUEBA DE FUNCIONES SOLO PARA ADMIN EN EL NAVBAR?>
+              <?php if($_SESSION["loggedUser"]->getTypeUserId()==2){ // PRUEBA DE FUNCIONES SOLO PARA ADMIN EN EL NAVBAR?>
                 <li><a href="<?php echo  FRONT_ROOT."JobOffer/ShowAddView "?>">ADD</a></li>
-                <li><a href="<?php echo  FRONT_ROOT."JobOffer/ShowListView "?>">LIST / status</a></li>
+                <li><a href="<?php echo  FRONT_ROOT."JobOffer/ShowListView "?>">LIST / remove</a></li>
                 <li><a href="<?php echo  FRONT_ROOT."JobOffer/ShowModifyView "?>">MODIFY</a></li>
                 <li><a href="<?php echo  FRONT_ROOT."JobOffer/ShowStudentListByJobOffer "?>">Alumons por JOffer</a></li>
                 <li><a href="<?php echo  FRONT_ROOT."JobOffer/CheckDateJobOffer "?>">Baja JobOffer expirada</a></li>
@@ -68,7 +68,7 @@
       </ul>
     </nav>
     <?php } ?>
-    <?php if($_SESSION["loggedUser"]->getTypeStudentId()==1) { ?>
+    <?php if($_SESSION["loggedUser"]->getTypeUserId()==1) { ?>
     <nav id="mainav" class="fl_right">
       <ul class="clear">
         <!--SOLO APPLICATIONS   -->
@@ -83,7 +83,7 @@
       </ul>
     </nav>
     <!-- PARA USER COMPANY -->
-    <?php if($_SESSION["loggedUser"]->getTypeStudentId()==3) { ?>
+    <?php if($_SESSION["loggedUser"]->getTypeUserId()==3) { ?>
     <nav id="mainav" class="fl_right">
       <ul class="clear">
           <li class="active"><a class="drop" href="#">Functions</a>

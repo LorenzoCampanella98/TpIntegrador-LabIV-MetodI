@@ -87,7 +87,7 @@ include('header.php');
                     <td><?php echo $jobOffer->getCompany()->getName()?></td>
                     <td><?php echo $jobOffer->getJobPosition()->getCareer()->getDescription()?></td>
                     <td><?php echo $jobOffer->getActive() ?></td>
-                    <?php if ( $_SESSION["loggedUser"]->getTypeStudentId()==1 && $_SESSION["loggedUser"]->getPostulated()==0) { //solo si el user no es admin se puede aplicar?>
+                    <?php if ( $_SESSION["loggedUser"]->getTypeUserId()==1 && $_SESSION["loggedUser"]->getPostulated()==0) { //solo si el user no es admin se puede aplicar?>
                       
               </tr>
             </tbody>
@@ -104,7 +104,7 @@ include('header.php');
                 </td>
                 <td><input type="file" name="file" id="file" class="form-control-file" required></td>
                
-                   <input type="number" name="studentId" size="22" min="0" value="<?php echo $_SESSION["loggedUser"]->getStudentId() ?>"  style="visibility:hidden">
+                   <input type="number" name="userId" size="22" min="0" value="<?php echo $_SESSION["loggedUser"]->getUserId() ?>"  style="visibility:hidden">
                    <input type="number" name="jobOfferId" size="22" min="0" value="<?php  echo $jobOffer->getJobOfferId() ?>"  style="visibility:hidden">
                 <td>
                         <button type="submit" name="id" class="btn"> Apply </button>
