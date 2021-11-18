@@ -10,6 +10,15 @@
     <!-- main body -->
     <div class="content"> 
       <div class="scrollable">
+        <?php if(isset($message)) {?>
+          <table>
+              <thead>
+                <tr><th><?php echo $message?></th></tr>
+                <tr><th><?php echo $message1?></th></tr>
+                <tr><th><?php echo $message2?></th></tr>
+              </thead>
+            </table>
+        <?php } else { ?>
         <?php if ($applicationList!=null) {?>
       <form action="<?php echo FRONT_ROOT?>Application/Declinar" method="">
         <table style="text-align:center;">
@@ -54,6 +63,7 @@
               <th style="width: 25%;"><?php echo "No existen Applicaciones activas"  ?></th>
          </tr>
       </table>
+        <?php } ?>
         <?php } ?>
       </div>
     </div>

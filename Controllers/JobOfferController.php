@@ -5,7 +5,7 @@
 
     use DAO\CompanyDAO as CompanyDAO; // Lo usare para el add de Job Offer y LA MUESTRA COMPLETA DE JOB OFFER
     use Models\Company as Company;
-
+    use Controllers\EmailController as EmailController;
     use DAO\ApplicationDAO as ApplicationDAO; //la funcion SearchForApplications viene desde list-application es necesario el dao para tener la lista 
 
 
@@ -211,6 +211,7 @@ class JobOfferController
 
         public function CheckDateJobOffer()
         {
+            $emailController= new EmailController;
             $actualDate = date('d-m-Y', time());
             $jobOffersFinalizadas = array();
             foreach ($this->jobOfferList as $jobOffer)
@@ -227,13 +228,20 @@ class JobOfferController
                         $to = $user->getEmail();
                         $subject = "jobOffer Finalizada";
                         $message =  "La job Offer ".$jobOffer->getDescription()."ha finalizado, GRACIAS POR PARTICIPAR";
-                        //mail($to, $subject, $message); //error en el servidor de wamp -> problemas de configuracion del servidor.
+
+                        $emailController->sendEmail($to,$subject,$message); //envio de correo electronico
                     }
                     array_push($jobOffersFinalizadas,$jobOffer);
                 }
             }
            require_once(VIEWS_PATH."ends-jobOffer.php"); 
         }
+
+        /*public function GenerarPdf($id)
+        {
+           $userList=$this->jobOfferDAO->ListStudentsFilterByJoboffer($id);
+           require_once("pdf/crearPdf.php");
+        }*/
 
     }
 
