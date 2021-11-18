@@ -47,36 +47,32 @@ class ApplicationController
 
         public function Add($userId,$jobOfferId,$description,$file)
         {   
-            //$this->SubirCv($file); //----------------------------------------------------PORQUE NO ANDAAAAAAAA????????????
-            var_dump($file);
-        
             $actualDate = date('d-m-Y', time());
             $application = new Application();
             $application->setApplicationDate($actualDate);
-            $application->setDescription($description);
+            $application->setDescription($jobOfferId); // WTF
             $application->setActive(1); //no me toma true
 
-      
-            $jobOffer = $this->jobOfferDAO->SearchJobOffer($jobOfferId); //RETORNA UNA JOB OFFER
-            $user = $this->userDAO->GetById($userId);//RETORNA UN STUDENT
+            
+            $jobOffer = $this->jobOfferDAO->SearchJobOffer($userId); //WTF
+            $user = $this->userDAO->GetById($description);//RETORNA UN STUDENT
             
             $application->setUser($user); 
             $application->setJobOffer($jobOffer);
             $application->setCv($file);
-
-        
+            
             $this->applicationDAO->Add($application);
-            $this->userDAO->ChangePostulated($userId); //cambia a postulado
+            $this->userDAO->ChangePostulated($description); //cambia a postulado
             $_SESSION["loggedUser"]->setPostulated(1); //porque si bien se actualiza la BD no se actualiza el session  porque cando entra aun no estaba postulad                                         
             $jobOffer=null; //lo necesito en la muestra
             $applicationList = $this->applicationDAO->GetStudentApplications($_SESSION["loggedUser"]->getUserId());
-            require_once(VIEWS_PATH."list-application.php");;
+            require_once(VIEWS_PATH."home.php");
         }
 
-        public function SubirCv($file)
+        public function SubirCv($description,$userId,$jobOfferId,$file)
         {
-
-            try
+            
+           try
             {
                 $neededExtension = "pdf";
                 $fileName = $file["name"];
@@ -107,7 +103,7 @@ class ApplicationController
             {
               //  $message = $ex->getMessage();
             }
-            require_once(VIEWS_PATH."home.php");;
+            $this->Add($userId,$jobOfferId,$description,$fileName);
         }
 
         public function BajaAplication($id)
@@ -128,8 +124,8 @@ class ApplicationController
         {
             $emailController = new EmailController;
             //baja de la acpplicacion y cambio de estado para el user
-            //$this->applicationDAO->ChangeStatus($id);
-            //$this->userDAO->ChangePostulated($userId);
+            $this->applicationDAO->ChangeStatus($id);
+            $this->userDAO->ChangePostulated($userId);
 
             //--- ENVIO DE EMAIL --- //
             $user = $this->userDAO->GetById($userId);
