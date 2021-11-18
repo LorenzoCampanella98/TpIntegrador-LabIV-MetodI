@@ -58,7 +58,7 @@ include('header.php');
     <div class="clear"></div>
       <div class="content"> 
         <div class="scrollable">
-          <form action="<?php echo FRONT_ROOT?>Application/Add" method="">
+         <?php /* <form action="<?php echo FRONT_ROOT?>Application/" method="POST" enctype="multipart/form-data"> */?>
           <?php if($jobOffer->getJobOfferId()!=null) {?>
             <table style="text-align:center;">
             <thead>
@@ -87,14 +87,17 @@ include('header.php');
                     <td><?php echo $jobOffer->getCompany()->getName()?></td>
                     <td><?php echo $jobOffer->getJobPosition()->getCareer()->getDescription()?></td>
                     <td><?php echo $jobOffer->getActive() ?></td>
-                    <?php if ( $_SESSION["loggedUser"]->getTypeUserId()==1 && $_SESSION["loggedUser"]->getPostulated()==0) { //solo si el user no es admin se puede aplicar?>
-                      
               </tr>
             </tbody>
             </table>
+                    <?php /* if ( $_SESSION["loggedUser"]->getTypeUserId()==1 && $_SESSION["loggedUser"]->getPostulated()==0) { //solo si el user no es admin se puede aplicar?>
+              </tr>
+            </tbody>
+            </table>
+            <?php 
             <table>
               <tr>
-              <th>Description</th>
+               <th>Description</th>
               </tr>
             </thead>
             <tbody align="center">
@@ -102,40 +105,50 @@ include('header.php');
                 <td style="max-width: 500px;">    
                   <input type="text" name="description" size="22" maxlength="29" min="0" required>
                 </td>
-                <td><input type="file" name="file" id="file" class="form-control-file" required></td>
+                <td>
+                  <input type="file" name="file" id="file" class="form-control-file" required>
+                </td>
                
                    <input type="number" name="userId" size="22" min="0" value="<?php echo $_SESSION["loggedUser"]->getUserId() ?>"  style="visibility:hidden">
                    <input type="number" name="jobOfferId" size="22" min="0" value="<?php  echo $jobOffer->getJobOfferId() ?>"  style="visibility:hidden">
+               
                 <td>
-                        <button type="submit" name="id" class="btn"> Apply </button>
+                  <button type="submit" name="id" class="btn"> Apply </button>
                 </td>
              
                     <?php }?>
               
             </tbody>
-            </table></table>
+            </table>
+          </table>*/ ?>
           <?php } ?>
+          <?php if ($jobOffer->getJobOfferId()!=null && $_SESSION["loggedUser"]->getTypeUserId()==1 && $_SESSION["loggedUser"]->getPostulated()==0) {?>
+         <?php // </form> ?>
+                     <form action="<?php echo FRONT_ROOT ?>Application/SubirCv" method="POST" enctype="multipart/form-data">
+                        <table style="text-align:center;">
+                          <?php /* <tr>
+                            <th colspan="2"><center><h4>Subir Cv</h4></center></th>
+                          </tr> */?>
+                          <thead> 
+                              <tr>  
+                                <th style="width: 50%;">Carga de Cv</th>
+                                <th style="width: 50%;">Descripcion</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><input type="file" name="file" id="file" class="form-control-file" required></td>
+                              <td><input type="text" name="description" size="22" maxlength="29" min="0" required></td>
+                              <input type="number" name="userId" size="22" min="0" value="<?php echo $_SESSION["loggedUser"]->getUserId() ?>"  style="visibility:hidden">
+                              <input type="number" name="jobOfferId" size="22" min="0" value="<?php  echo $jobOffer->getJobOfferId() ?>"  style="visibility:hidden">
+                              <td ><center><button type="submit" class="btn btn-success">Aplicar</button><center></td>
+                            </tr>
+                         </tbody>
+                        </table>
+                      </form>
           
-          </form>
-
-                    <form action="<?php echo FRONT_ROOT ?>Application/SubirCv" method="POST" enctype="multipart/form-data">
-              <table style="width: 80vh;">
-                <tr>
-                  <th colspan="2"><center><h4>Applying Appointment</h4></center></th>
-                </tr>
-                <tr>
-                  <td><label for="cv">Curriculum Vitae * (PDF)</label></td>
-                  <td><input type="file" name="file" id="file" class="form-control-file" required></td>
-                </tr>
-
-                
-                <tr>
-                  <td colspan="2"><center><button type="submit" class="btn btn-success">Upload</button><center></td>
-                </tr> 
-              </table>
-            </form>
-          
-          </form>
+          <?php // </form> ?>
+          <?php } ?>
           <form action="<?php echo FRONT_ROOT?>JobOffer/Search" method="">
         <table style="text-align:center;">
           <thead>
