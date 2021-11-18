@@ -10,9 +10,11 @@ interface IJobOfferDAO
     public function GetById($id);
     public function ChangeStatus($id);
     public function Modify($id,$description,$skills,$tasks,$active);
+    public function GetJobPositionById($id);
     public function RetrieveDataCareers(); // publica porque unos controllers la usan
     public function FilterJobPositionWithActiveCareers();
     public function SearchJobOffer($id);
+    public function GetByCreatorUserAndName($creatorUserId,$companyId);
     public function SearchJobPosition($id);
     public function SearchCareer($id);
     public function ListFilterByCareer($text);

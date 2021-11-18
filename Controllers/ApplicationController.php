@@ -10,6 +10,7 @@
     use Models\JobOffer as JobOffer;
     use \Exception as Exception;
     use Models\CV as CV;
+    use Controllers\EmailController as EmailController;
 
 class ApplicationController
     {
@@ -125,18 +126,22 @@ class ApplicationController
 
         public function Declinar($id,$userId)
         {
-            $this->applicationDAO->ChangeStatus($id);
-            $this->userDAO->ChangePostulated($userId);
-
+            $emailController = new EmailController;
+            //baja de la acpplicacion y cambio de estado para el user
+            //$this->applicationDAO->ChangeStatus($id);
+            //$this->userDAO->ChangePostulated($userId);
 
             //--- ENVIO DE EMAIL --- //
             $user = $this->userDAO->GetById($userId);
             $to = $user->getEmail();
             $subject = "Baja de Aplicacion";
             $message =  $_SESSION["loggedUser"]->getName()."Ha dado de baja tu aplicacion con ID: ".$id;
-            //mail($to, $subject, $message); // NO ANDA LA FUNCION
-
-            require_once(VIEWS_PATH."home.php");
+            
+            $emailController->sendEmail($to,$subject,$message);
+            $message = ">>Aplicacion dada de baja por-> ".$_SESSION["loggedUser"]->getName()."Id Aplicacion: ".$id;
+            $message1= ">>Student AVISADO-> ".$user->getName()." Email: ".$user->getEmail();
+            $message2= ">>Correo enviado desde: lorenzocampanellaprueba@gmail.com";
+            require_once(VIEWS_PATH."list-application-admin.php");
         }
 
 

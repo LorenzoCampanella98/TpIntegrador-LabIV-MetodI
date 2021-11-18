@@ -14,6 +14,7 @@
         public function Modify($id,$name,$company_link,$aboutUs,$description,$active);
         public function Search($id);
         public function ListFilter($name);
+        public function GetByCreatorUserAndName($id,$name);
     }
 
 ?>

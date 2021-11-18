@@ -10,7 +10,7 @@
     <!-- main body -->
     <div class="content"> 
       <div class="scrollable">
-      <form action="<?php echo FRONT_ROOT?>JobOffer/ListStudentsByJobOffer" method="">
+      <form action="<?php echo FRONT_ROOT?>JobOffer/GenerarPdf" method="">
         <table style="text-align:center;">
           <thead>
             <tr>
@@ -42,9 +42,9 @@
                     <td><?php echo $jobOffer->getCompany()->getDescription() ?></td>
                     <td><?php echo $jobOffer->getJobPosition()->getCareer()->getDescription() ?></td>
                     <td><?php echo $jobOffer->getActive() ?></td>
-                    <?php /* <td>
-                      <button type="submit" name="id" class="btn" value="<?php echo $jobOffer->getJobOfferId() ?>"> Ver Aplicaciones </button>
-                    </td>*/ ?>
+                    <td>
+                      <button type="submit" name="id" class="btn" value="<?php echo $jobOffer->getJobOfferId() ?>"> Generar Pdf </button>
+                    </td> 
                   </tr>
                 <?php
               }

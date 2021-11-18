@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS studentRegistered
     surname NVARCHAR(30) NOT NULL,
     password NVARCHAR(30) NOT NULL,
     email NVARCHAR(30) NOT NULL,
-    postulated bit NOT NULL, /* no toma true o false*/
-    typeStudentId int NOT NULL
+    postulated bit NOT NULL, /* no toma true o s  false*/
+    typeStudentId int NOT NULL 
     
 )Engine=InnoDB;
 
