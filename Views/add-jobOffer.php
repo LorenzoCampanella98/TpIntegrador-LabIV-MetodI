@@ -10,10 +10,11 @@
     <div class="content" > 
       <div id="comments" style="align-items:center;">
         <h2>Add JobOffer</h2>
-        <form action="<?php echo FRONT_ROOT?> JobOffer/Add" method="post" style="background-color: #EAEDED;padding: 2rem !important;">
+        <form action="<?php echo FRONT_ROOT?> JobOffer/subirFlyer" method="post" enctype="multipart/form-data" style="background-color: #EAEDED;padding: 2rem !important;">
           <table> 
             <thead>
               <tr>
+                <th>Flyer</th>
                 <th>Description</th>
                 <th>Skills</th>
                 <th>Tasks</th>
@@ -23,6 +24,7 @@
             </thead>
             <tbody align="center">
               <tr>
+                <td><input type="file" name="file" id="file" class="form-control-file" required></td>
                 <td style="max-width: 120px;">    
                   <input type="text" name="description" size="22" min="0"  maxlength="29" required>
                 </td>

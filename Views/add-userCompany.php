@@ -18,7 +18,7 @@
         <form action="<?php echo FRONT_ROOT."User/RegisterUserCompany" ?>" method="post">
           <input class="input-login" type="text" name="email" placeholder="email" maxlength="29" required>
           <input class="input-login" type="text" name="pass" placeholder="pass" maxlength="29" required>
-          <input class="input-login" type="text" name="name" placeholder="name" maxlength="29" required>
+          <input class="input-login" type="text" name="name" placeholder="Company Name" maxlength="29" required>
           <button class="btn-login btn" type="submit" name="btnLogin">REGISTRARSE</button>
         </form>
       </div>

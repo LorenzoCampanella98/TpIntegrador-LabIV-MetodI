@@ -40,7 +40,7 @@
                     <td><?php echo $jobOffer->getTasks() ?></td>
                     <td><?php echo $jobOffer->getJobPosition()->getDescription() ?></td>
                     <td><?php echo $jobOffer->getCompany()->getDescription() ?></td>
-                    <td><?php echo $jobOffer->getJobPosition()->getCareer()->getDescription() ?></td>
+                    <td><?php /*echo $jobOffer->getJobPosition()->getCareer()->getDescription() */?></td>
                     <td><?php echo $jobOffer->getActive() ?></td>
                     <td>
                       <button type="submit" name="id" class="btn" value="<?php echo $jobOffer->getJobOfferId() ?>"> Generar Pdf </button>

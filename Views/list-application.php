@@ -49,11 +49,13 @@ include('header.php');
                 {
                   ?>
                     <tr>
+                    <?php $rute='../Data/'.$application->getCv(); //ruta del cv ?>
                       <td><?php echo $application->getApplicationId() ?></td>
                       <td><?php echo $application->getApplicationDate() ?></td>
                       <td><?php echo $application->getDescription() ?></td>
                       <td><?php echo $application->getJobOffer()->getDescription() ?></td>
-                      <td><?php echo $application->getCv() ?></td>
+                      <?php /* <td><?php echo $application->getCv() ?></td> */?>
+                      <td><a href="<?php echo $rute;?>"target="_blank" ><?php echo $application->getCv() ?></a></td>
                       <td><?php echo $application->getActive() ?></td>
                       <td>
                       <button type="submit" name="id" class="btn" value="<?php echo $application->getjobOffer()->getJobOfferId() ?>"> VER </button> <!-- USO LA BUSQUEDA POR NAME PERO DE LA SELECCIONADA-->
