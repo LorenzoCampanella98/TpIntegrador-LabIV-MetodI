@@ -10,6 +10,7 @@ class JobOffer
     private $tasks;
     private $jobPosition;
     private $company;
+    private $flyer;
     //private $careerId;
     private $active;
     private $applicants; //arreglo almacenara los aplicantes
@@ -46,6 +47,9 @@ class JobOffer
 
     public function getApplicants(){ return $this->applicants; }
     public function setApplicants($applicants): self { $this->applicants = $applicants; return $this; }
+
+    public function getFlyer(){ return $this->flyer; }
+    public function setFlyer($flyer): self { $this->flyer = $flyer; return $this; }
 }
 
 

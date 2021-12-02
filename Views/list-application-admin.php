@@ -35,16 +35,18 @@
           </thead>
           <tbody>
           <?php
-              foreach($applicationList as $company)
+              foreach($applicationList as $application)
               {
                 ?>
                   <tr>
+                      <?php $rute='../Data/'.$application->getCv(); //ruta del cv ?>
                       <td><?php echo $application->getApplicationId() ?></td>
                       <td><?php echo $application->getUser()->getName() ?></td>
                       <td><?php echo $application->getApplicationDate() ?></td>
                       <td><?php echo $application->getDescription() ?></td>
                       <td><?php echo $application->getJobOffer()->getDescription() ?></td>
-                      <td><?php echo $application->getCv() ?></td>
+                      <?php /* <td><?php echo $application->getCv() ?></td> */?>
+                      <td><a href="<?php echo $rute;?>"target="_blank" ><?php echo $application->getCv() ?></a></td>
                       <td><?php echo $application->getActive() ?></td>
                       <input type="text" name="id" value="<?php echo $application->getApplicationId(); ?>" style="visibility:hidden">
                       <input type="text" name="userId" value="<?php echo $application->getUser()->getUserId(); ?>" style="visibility:hidden">

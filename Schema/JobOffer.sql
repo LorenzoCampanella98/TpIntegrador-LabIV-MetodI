@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS joboffers
     jobPositionId INT NOT NULL,
     companyId INT NOT NULL,
     careerId INT NOT NULL,
+    flyer varchar(100) NOT NULL,
     active bit NOT NULL /* no toma true o false*/
 )Engine=InnoDB;
 
@@ -24,13 +25,13 @@ DROP procedure IF EXISTS `JobOffers_Add`;
 DELIMITER $$
 
 CREATE PROCEDURE JobOffers_Add (IN creator_user int,IN publicationDate VARCHAR(30), IN expiryDate VARCHAR(30) , 
-IN description VARCHAR(30),IN skills VARCHAR(30),IN tasks VARCHAR(30),IN jobPositionId CHAR (4),IN companyId CHAR (4),IN careerId char (4),IN active boolean)
+IN description VARCHAR(30),IN skills VARCHAR(30),IN tasks VARCHAR(30),IN jobPositionId CHAR (4),IN companyId CHAR (4),IN careerId char (4),IN flyer varchar(100),IN active boolean)
 BEGIN
 	INSERT INTO joboffers
         (jobOffers.creator_user,joboffers.publicationDate,joboffers.expiryDate,joboffers.description,joboffers.skills,joboffers.tasks,joboffers.jobPositionId,
-         joboffers.companyId,jobOffers.careerId,joboffers.active)
+         joboffers.companyId,jobOffers.careerId,jobOffers.flyer,joboffers.active)
     VALUES
-        (creator_user,publicationDate,expiryDate,description,skills,tasks,jobPositionId,companyId,careerId,active);
+        (creator_user,publicationDate,expiryDate,description,skills,tasks,jobPositionId,companyId,careerId,flyer,active);
 END$$
 
 DELIMITER ;
@@ -41,7 +42,7 @@ DELIMITER $$
 
 CREATE PROCEDURE JobOffers_GetAll ()
 BEGIN
-	SELECT jobOfferId,creator_user,publicationDate,publicationDate,expiryDate,description,skills,tasks,jobPositionId,companyId,careerId,active
+	SELECT jobOfferId,creator_user,publicationDate,publicationDate,expiryDate,description,skills,tasks,jobPositionId,companyId,careerId,flyer,active
     FROM joboffers;
 END$$
 

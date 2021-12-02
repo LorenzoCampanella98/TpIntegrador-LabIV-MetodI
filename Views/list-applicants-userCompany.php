@@ -20,6 +20,7 @@
               <th style="width: 30%;">Description</th>
               <th style="width: 15%;">Skills</th>
               <th style="width: 15%;">Tasks</th>
+              <th style="width: 15%;">Flyer</th>
               <th style="width: 15%;">JobPosition</th>
               <th style="width: 15%;">Company</th>
               <th style="width: 15%;">Career</th> 
@@ -29,12 +30,14 @@
           <tbody>
           <?php $jobOffer=$_SESSION["jobOfferUser"] ?>
                   <tr>
+                  <?php $rute='../Uploads/'.$jobOffer->getFlyer();//ruta para mostrar el flyer?>
                     <td><?php echo $jobOffer->getJobOfferId() ?></td>
                     <td><?php echo $jobOffer->getPublicationDate() ?></td>
                     <td><?php echo $jobOffer->getExpiryDate() ?></td>
                     <td><?php echo $jobOffer->getDescription() ?></td>
                     <td><?php echo $jobOffer->getSkills() ?></td>
                     <td><?php echo $jobOffer->getTasks() ?></td>
+                    <td><?php echo "<img src='$rute'"?></td>
                     <td><?php echo $jobOffer->getJobPosition()->getDescription() ?></td>
                     <td><?php echo $jobOffer->getCompany()->getDescription() ?></td>
                     <td><?php echo $jobOffer->getJobPosition()->getCareer()->getDescription() ?></td>

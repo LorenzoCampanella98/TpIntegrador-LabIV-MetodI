@@ -22,7 +22,7 @@ class JobOfferDAO implements IJobOfferDAO
 
         public function Add(JobOffer $jobOffer)
         {
-            $query = "CALL JobOffers_Add(?,?,?,?,?,?,?,?,?,?)";
+            $query = "CALL JobOffers_Add(?,?,?,?,?,?,?,?,?,?,?)";
             $parameters["creator_user"] = $_SESSION["loggedUser"]->getUserId();
             $parameters["publicationDate"]= $jobOffer->getPublicationDate();
             $parameters["expiryDate"] = $jobOffer->getExpiryDate();
@@ -32,6 +32,7 @@ class JobOfferDAO implements IJobOfferDAO
             $parameters["jobPositionId"] = $jobOffer->getJobPosition()->getJobPositionId();
             $parameters["companyId"] = $jobOffer->getCompany()->getCompanyId();
             $parameters["careerId"] = $jobOffer->getJobPosition()->getCareer()->getCarreerId();
+            $parameters["flyer"]= $jobOffer->getFlyer(); // NUEVO
             $parameters["active"] = $jobOffer->getActive();
 
             $this->connection = Connection::GetInstance();
@@ -60,6 +61,7 @@ class JobOfferDAO implements IJobOfferDAO
                 $jobOffer->setCompany($companyADO->GetById($row["companyId"])); //devuelve un Comany
                // $jobOffer->setApplicants($this->ListStudentsFilterByJoboffer($row["jobOfferId"]));
                // echo "control";
+                $jobOffer->setFlyer($row["flyer"]); //NUEVO
                 $jobOffer->setActive($row["active"]);
                 array_push($jobOfferList, $jobOffer);
             }
@@ -139,6 +141,7 @@ class JobOfferDAO implements IJobOfferDAO
             $careersList = $this->RetrieveDataCareers();
             $jobPosition = new JobPosition();
             $career = new Career  ();
+            //var_dump($jobPositionList);
             foreach($jobPositionList as $value)
             {
                 if($value["jobPositionId"]==$id)
@@ -164,7 +167,7 @@ class JobOfferDAO implements IJobOfferDAO
         {
             $jobPositionList = array();
             $ch = curl_init();
-            $url = 'https://utn-students-api.herokuapp.com/api/JobPosition';
+            $url = 'https://utn-students-api2.herokuapp.com/api/JobPosition';
             $httpheader = ['x-api-key: 4f3bceed-50ba-4461-a910-518598664c08'];
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -187,7 +190,7 @@ class JobOfferDAO implements IJobOfferDAO
         {
             $careersList = array();
             $ch = curl_init();
-            $url = 'https://utn-students-api.herokuapp.com/api/Career';
+            $url = 'https://utn-students-api2.herokuapp.com/api/Career';
             $httpheader = ['x-api-key: 4f3bceed-50ba-4461-a910-518598664c08'];
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -374,6 +377,7 @@ class JobOfferDAO implements IJobOfferDAO
                     $jobOffer->setTasks($row["tasks"]);
                     $jobOffer->setJobPosition($this->GetJobPositionById($row["jobPositionId"]));
                     $jobOffer->setCompany($companyADO->GetById($row["companyId"])); //devuelve un Comany
+                    $jobOffer->setFlyer($row["flyer"]); //NUEVO
                     $jobOffer->setActive($row["active"]);
                 } 
             }

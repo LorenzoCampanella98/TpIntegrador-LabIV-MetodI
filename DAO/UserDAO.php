@@ -128,7 +128,7 @@
         private function RetrieveDataFromApi()
         {
             $ch = curl_init();
-            $url = 'https://utn-students-api.herokuapp.com/api/Student';
+            $url = 'https://utn-students-api2.herokuapp.com/api/Student';
             $httpheader = ['x-api-key: 4f3bceed-50ba-4461-a910-518598664c08'];
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -235,7 +235,7 @@
         {
             $flag=false;
             $ch = curl_init();
-            $url = 'https://utn-students-api.herokuapp.com/api/Career';
+            $url = 'https://utn-students-api2.herokuapp.com/api/Career';
             $httpheader = ['x-api-key: 4f3bceed-50ba-4461-a910-518598664c08'];
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_URL, $url);

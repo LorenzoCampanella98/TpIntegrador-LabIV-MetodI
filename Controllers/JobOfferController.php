@@ -6,6 +6,7 @@
     use DAO\CompanyDAO as CompanyDAO; // Lo usare para el add de Job Offer y LA MUESTRA COMPLETA DE JOB OFFER
     use Models\Company as Company;
     use Controllers\EmailController as EmailController;
+    use Controllers\PdfController as PdfController;
     use DAO\ApplicationDAO as ApplicationDAO; //la funcion SearchForApplications viene desde list-application es necesario el dao para tener la lista 
 
 
@@ -80,8 +81,9 @@ class JobOfferController
             require_once(VIEWS_PATH."list-applicants-userCompany.php");
         }
 
-        public function Add($description,$skills,$tasks,$jobPositionId,$companyId)
+        public function Add($description,$skills,$tasks,$jobPositionId,$companyId,$file)
         {
+            //var_dump($description,$skills,$tasks,$jobPositionId,$companyId,$file);
             $actualDate = date('d-m-Y', time());
                 $expiryDate = date("d-m-Y",strtotime($actualDate."+ 1 month"));
                 $jobOffer = new JobOffer();
@@ -93,6 +95,7 @@ class JobOfferController
                 $jobPosition = $this->jobOfferDAO->GetJobPositionById($jobPositionId); //retorno el Job Position qu dentro tiene la career
                 $jobOffer->setJobPosition($jobPosition); //meto en el job Offer el JobPosition que dentro tiene una career
                 $jobOffer->setCompany($this->companyDAO->GetById($companyId)); //retonrna una company
+                $jobOffer->setFlyer($file);//--------------------------
                 $jobOffer->setActive(1); //no me toma true
                 $this->jobOfferDAO->Add($jobOffer);
                 if ($_SESSION["loggedUser"]->getTypeUserId()==3) {
@@ -101,6 +104,41 @@ class JobOfferController
                 } else {
                      $this->ShowAddView();
                 }
+        }
+
+        public function subirFlyer($description,$skills,$tasks,$jobPositionId,$companyId,$file)
+        {
+            try
+            {
+                $neededExtension = "jpg";
+                $fileName = $file["name"];
+                $tempFileName = $file["tmp_name"];
+                $type = $file["type"];
+                                   
+                $filePath = "Uploads/".basename($fileName);            
+                $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+
+                if ($fileType == $neededExtension){  
+                    if (move_uploaded_file($tempFileName, $filePath))
+                    {
+                        $message = "Flyer subido";
+                    }
+                    else
+                        $message = "Error en  Flyer!";
+                }else{
+                    ?>
+                    
+                <?php
+                }
+                (new HomeController)->Index();        
+            }
+            catch(Exception $ex)
+            {
+              //  $message = $ex->getMessage();
+            }
+            //var_dump($description,$skills,$tasks,$jobPositionId,$companyId,$fileName);
+            
+            $this->Add($description,$skills,$tasks,$jobPositionId,$companyId,$fileName);
         }
 
         public function ChangeStatus($id)
@@ -237,11 +275,14 @@ class JobOfferController
            require_once(VIEWS_PATH."ends-jobOffer.php"); 
         }
 
-        /*public function GenerarPdf($id)
+        public function GenerarPdf($id)
         {
+            
            $userList=$this->jobOfferDAO->ListStudentsFilterByJoboffer($id);
-           require_once("pdf/crearPdf.php");
-        }*/
+           //$pdfController = new PdfController;
+           //var_dump($userList);
+           require_once(VIEWS_PATH."fpdf-complete.php"); 
+        }
 
     }
 
